@@ -49,8 +49,8 @@ Main = {
     });
   },
   loadContract: async () => {
-    const cuboIdo = await $.getJSON('contracts/OmegaIdo.json')
-    Main.contracts.OmegaIdo = TruffleContract(cuboIdo)
+    const omegaIdo = await $.getJSON('contracts/OmegaIdo.json')
+    Main.contracts.OmegaIdo = TruffleContract(omegaIdo)
     Main.contracts.OmegaIdo.setProvider(Main.web3Provider)
 
     const omega = await $.getJSON('contracts/Omega.json')
@@ -58,13 +58,13 @@ Main = {
     Main.contracts.Omega.setProvider(Main.web3Provider)
 
     // OX contract on mainnet
-    const daiContractAddress = '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063'
+    const oxContractAddress = '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063'
     const ox = await $.getJSON('contracts/MainnetOx.json')
     Main.contracts.Ox = TruffleContract(ox)
     Main.contracts.Ox.setProvider(Main.web3Provider)
 
     // // DummyOX contract on testnet
-    // const daiContractAddress = '0xc67112C850964bFf0563D894130c02d6839A0EC2'
+    // const oxContractAddress = '0xc67112C850964bFf0563D894130c02d6839A0EC2'
     // const ox = await $.getJSON('contracts/ExternalOx.json')
     // Main.contracts.Ox = TruffleContract(ox)
     // Main.contracts.Ox.setProvider(Main.web3Provider)
@@ -75,13 +75,13 @@ Main = {
     // Main.contracts.Ox.setProvider(Main.web3Provider)
 
     try {
-      Main.cuboIdo = await Main.contracts.OmegaIdo.deployed()
+      Main.omegaIdo = await Main.contracts.OmegaIdo.deployed()
       Main.omega = await Main.contracts.Omega.deployed()
       // Mock OX contract locally
       // Main.ox = await Main.contracts.Ox.deployed()
 
       // DummyOX / OX contract on testnet and mainnet
-      Main.ox = await Main.contracts.Ox.at(daiContractAddress)
+      Main.ox = await Main.contracts.Ox.at(oxContractAddress)
     }
     catch {
       $('#network-alert').show()
@@ -125,10 +125,10 @@ Main = {
     }
   },
   fetchAccountData: async () => {
-    daiBalance = await Main.ox.balanceOf(Main.account)
-    $('#ox-balance').html(Main.toEth(daiBalance.toString()))
+    oxBalance = await Main.ox.balanceOf(Main.account)
+    $('#ox-balance').html(Main.toEth(oxBalance.toString()))
 
-    let allowanceOx = await Main.ox.allowance(Main.account, Main.cuboIdo.address)
+    let allowanceOx = await Main.ox.allowance(Main.account, Main.omegaIdo.address)
     if(allowanceOx > 0) {
       $('#buy-omega').show()
     }
@@ -140,7 +140,7 @@ Main = {
     $('#approve-ox').on('click', async (e) => {
       let amount = Main.toWei('100000000')
       Main.buttonLoadingHelper(e, 'approving...', async () => {
-        await Main.ox.approve(Main.cuboIdo.address, amount, { from: Main.account }).once("transactionHash", async (txHash) => {
+        await Main.ox.approve(Main.omegaIdo.address, amount, { from: Main.account }).once("transactionHash", async (txHash) => {
           Main.handleTransaction(txHash, 'Approving OX token...')
         })
       })
@@ -148,23 +148,23 @@ Main = {
 
     $('#buy-omega').on('click', async (e) => {
       Main.buttonLoadingHelper(e, 'buying OM...', async () => {
-        let cuboAmount = $('#input-omega').val()
-        if(cuboAmount < 1){
+        let omegaAmount = $('#input-omega').val()
+        if(omegaAmount < 1){
           alert('You must purchase at least 1 OM token')
           return
         }
-        cuboAmount = Main.toWei(cuboAmount.toString())
-        await Main.cuboIdo.sellOmegaToken(Main.account, cuboAmount, { from: Main.account }).once("transactionHash", async (txHash) => {
+        omegaAmount = Main.toWei(omegaAmount.toString())
+        await Main.omegaIdo.sellOmegaToken(Main.account, omegaAmount, { from: Main.account }).once("transactionHash", async (txHash) => {
           Main.handleTransaction(txHash, 'Transfering OM to your wallet...')
         })
       })
     })
 
     $('#input-omega').on('keyup', async (e) => {
-      let cuboPrice = await Main.cuboIdo.pricePerOmegaPercent()
-      cuboPrice = parseFloat(cuboPrice.toString()) / 100
+      let omegaPrice = await Main.omegaIdo.pricePerOmegaPercent()
+      omegaPrice = parseFloat(omegaPrice.toString()) / 100
       let inputVal = parseFloat($(e.target).val())
-      $('#ox-value').html(cuboPrice * inputVal)
+      $('#ox-value').html(omegaPrice * inputVal)
     })
   },
   setupClickAddTokenToWallet: async () => {

@@ -5,26 +5,26 @@ import "./Omega.sol";
 import "./Ox.sol";
 
 contract OmegaIdo {
-  Omega public cuboAddress;
-  Ox public daiAddress;
+  Omega public omegaAddress;
+  Ox public oxAddress;
   address private owner;
   uint public pricePerOmegaPercent;
 
-  constructor(Omega _cuboAddress, Ox _daiAddress, uint _pricePerOmega) {
+  constructor(Omega _omegaAddress, Ox _oxAddress, uint _pricePerOmega) {
     owner = msg.sender;
-    cuboAddress = _cuboAddress;
-    daiAddress = _daiAddress;
+    omegaAddress = _omegaAddress;
+    oxAddress = _oxAddress;
     pricePerOmegaPercent = _pricePerOmega;
   }
 
-  function sellOmegaToken(address _buyer, uint _cuboAmount) public {
+  function sellOmegaToken(address _buyer, uint _omegaAmount) public {
     require(msg.sender == _buyer, 'You must be the buyer to run this.');
-    require(_cuboAmount >= 1 * 10 ** 18, 'You must purchase at least 1 OM token.');
+    require(_omegaAmount >= 1 * 10 ** 18, 'You must purchase at least 1 OM token.');
 
-    uint daiAmount = (_cuboAmount * pricePerOmegaPercent) / 100;
+    uint oxAmount = (_omegaAmount * pricePerOmegaPercent) / 100;
 
-    daiAddress.transferFrom(_buyer, address(this), daiAmount);
-    cuboAddress.transfer(_buyer, _cuboAmount);
+    oxAddress.transferFrom(_buyer, address(this), oxAmount);
+    omegaAddress.transfer(_buyer, _omegaAmount);
   }
 
   // TODO: Script to update price
@@ -34,14 +34,14 @@ contract OmegaIdo {
   }
 
   // TODO: Script to withdraw OM form IDO
-  function withdrawOmegaFromIdo(address _to, uint _cuboAmount) public {
+  function withdrawOmegaFromIdo(address _to, uint _omegaAmount) public {
     require(msg.sender == owner, 'You must be the owner to run this.');
-    cuboAddress.transfer(_to, _cuboAmount);
+    omegaAddress.transfer(_to, _omegaAmount);
   }
 
   // TODO: Script to withdraw OX form IDO
-  function withdrawOxFromIdo(address _to, uint _daiAmount) public {
+  function withdrawOxFromIdo(address _to, uint _oxAmount) public {
     require(msg.sender == owner, 'You must be the owner to run this.');
-    daiAddress.transfer(_to, _daiAmount);
+    oxAddress.transfer(_to, _oxAmount);
   }
 }

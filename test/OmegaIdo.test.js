@@ -9,188 +9,188 @@ function tokens(n) {
 }
 
 contract('OmegaIdo', ([owner, teamMember1, buyer1, buyer2, buyer3]) => {
-  let cuboToken, daiToken, cuboIdo
-  let cuboPrice = 50 // OX
+  let omegaToken, oxToken, omegaIdo
+  let omegaPrice = 50 // OX
 
   before(async () => {
-    cuboToken = await Omega.new()
-    daiToken = await Ox.new()
-    cuboIdo = await OmegaIdo.new(cuboToken.address, daiToken.address, cuboPrice)
+    omegaToken = await Omega.new()
+    oxToken = await Ox.new()
+    omegaIdo = await OmegaIdo.new(omegaToken.address, oxToken.address, omegaPrice)
 
-    cuboBalance = await cuboToken.balanceOf(owner)
-    await cuboToken.transfer(cuboIdo.address, cuboBalance.toString(), { from: owner })
+    omegaBalance = await omegaToken.balanceOf(owner)
+    await omegaToken.transfer(omegaIdo.address, omegaBalance.toString(), { from: owner })
   })
 
   describe('Contract constructor', async () => {
     it('sets OM address', async () => {
-      const cuboAddress = await cuboIdo.cuboAddress.call()
-      assert.equal(cuboAddress, cuboToken.address)
+      const omegaAddress = await omegaIdo.omegaAddress.call()
+      assert.equal(omegaAddress, omegaToken.address)
 
-      const daiAddress = await cuboIdo.daiAddress.call()
-      assert.equal(daiAddress, daiToken.address)
+      const oxAddress = await omegaIdo.oxAddress.call()
+      assert.equal(oxAddress, oxToken.address)
     })
 
     it('has correct OM price', async () => {
-      const cuboPrice = await cuboIdo.pricePerOmegaPercent.call()
-      assert.equal(cuboPrice, 50)
+      const omegaPrice = await omegaIdo.pricePerOmegaPercent.call()
+      assert.equal(omegaPrice, 50)
     })
   })
 
   describe('#sellOmegaToken', async () => {
     before(async () => {
-      await daiToken.transfer(buyer1, tokens('2000'), { from: owner })
+      await oxToken.transfer(buyer1, tokens('2000'), { from: owner })
     })
 
     it('buyer buys 100 OM tokens', async () => {
-      const cuboAmountBefore = await cuboToken.balanceOf.call(buyer1)
-      assert.equal(cuboAmountBefore, tokens('0'))
-      const daiAmountBefore = await daiToken.balanceOf.call(buyer1)
-      assert.equal(daiAmountBefore, tokens('2000'))
+      const omegaAmountBefore = await omegaToken.balanceOf.call(buyer1)
+      assert.equal(omegaAmountBefore, tokens('0'))
+      const oxAmountBefore = await oxToken.balanceOf.call(buyer1)
+      assert.equal(oxAmountBefore, tokens('2000'))
 
-      await daiToken.approve(cuboIdo.address, tokens('10000'), { from: buyer1 })
-      await cuboIdo.sellOmegaToken(buyer1, tokens('100'), { from: buyer1 })
+      await oxToken.approve(omegaIdo.address, tokens('10000'), { from: buyer1 })
+      await omegaIdo.sellOmegaToken(buyer1, tokens('100'), { from: buyer1 })
 
-      const cuboAmountAfter = await cuboToken.balanceOf.call(buyer1)
-      assert.equal(cuboAmountAfter, tokens('100'))
-      const daiAmountAfter = await daiToken.balanceOf.call(buyer1)
-      assert.equal(daiAmountAfter, tokens('1950'))
+      const omegaAmountAfter = await omegaToken.balanceOf.call(buyer1)
+      assert.equal(omegaAmountAfter, tokens('100'))
+      const oxAmountAfter = await oxToken.balanceOf.call(buyer1)
+      assert.equal(oxAmountAfter, tokens('1950'))
     })
 
     it('buyer buys 1000 OM tokens', async () => {
-      const cuboAmountBefore = await cuboToken.balanceOf.call(buyer1)
-      assert.equal(cuboAmountBefore, tokens('100'))
-      const daiAmountBefore = await daiToken.balanceOf.call(buyer1)
-      assert.equal(daiAmountBefore, tokens('1950'))
+      const omegaAmountBefore = await omegaToken.balanceOf.call(buyer1)
+      assert.equal(omegaAmountBefore, tokens('100'))
+      const oxAmountBefore = await oxToken.balanceOf.call(buyer1)
+      assert.equal(oxAmountBefore, tokens('1950'))
 
-      await daiToken.approve(cuboIdo.address, tokens('10000'), { from: buyer1 })
-      await cuboIdo.sellOmegaToken(buyer1, tokens('1000'), { from: buyer1 })
+      await oxToken.approve(omegaIdo.address, tokens('10000'), { from: buyer1 })
+      await omegaIdo.sellOmegaToken(buyer1, tokens('1000'), { from: buyer1 })
 
-      const cuboAmountAfter = await cuboToken.balanceOf.call(buyer1)
-      assert.equal(cuboAmountAfter, tokens('1100'))
-      const daiAmountAfter = await daiToken.balanceOf.call(buyer1)
-      assert.equal(daiAmountAfter, tokens('1450'))
+      const omegaAmountAfter = await omegaToken.balanceOf.call(buyer1)
+      assert.equal(omegaAmountAfter, tokens('1100'))
+      const oxAmountAfter = await oxToken.balanceOf.call(buyer1)
+      assert.equal(oxAmountAfter, tokens('1450'))
     })
 
     it('buyer buys 11.5 OM tokens', async () => {
-      const cuboAmountBefore = await cuboToken.balanceOf.call(buyer1)
-      assert.equal(cuboAmountBefore, tokens('1100'))
-      const daiAmountBefore = await daiToken.balanceOf.call(buyer1)
-      assert.equal(daiAmountBefore, tokens('1450'))
+      const omegaAmountBefore = await omegaToken.balanceOf.call(buyer1)
+      assert.equal(omegaAmountBefore, tokens('1100'))
+      const oxAmountBefore = await oxToken.balanceOf.call(buyer1)
+      assert.equal(oxAmountBefore, tokens('1450'))
 
-      await daiToken.approve(cuboIdo.address, tokens('10000'), { from: buyer1 })
-      await cuboIdo.sellOmegaToken(buyer1, tokens('11.5'), { from: buyer1 })
+      await oxToken.approve(omegaIdo.address, tokens('10000'), { from: buyer1 })
+      await omegaIdo.sellOmegaToken(buyer1, tokens('11.5'), { from: buyer1 })
 
-      const cuboAmountAfter = await cuboToken.balanceOf.call(buyer1)
-      assert.equal(cuboAmountAfter, tokens('1111.5'))
-      const daiAmountAfter = await daiToken.balanceOf.call(buyer1)
-      assert.equal(daiAmountAfter, tokens('1444.25'))
+      const omegaAmountAfter = await omegaToken.balanceOf.call(buyer1)
+      assert.equal(omegaAmountAfter, tokens('1111.5'))
+      const oxAmountAfter = await oxToken.balanceOf.call(buyer1)
+      assert.equal(oxAmountAfter, tokens('1444.25'))
     })
   })
 
   describe('#updatePrice', async () => {
     it('updates OM IDO price from 50 OX to 5 OX', async () => {
-      const priceBefore = await cuboIdo.pricePerOmegaPercent.call()
+      const priceBefore = await omegaIdo.pricePerOmegaPercent.call()
       assert.equal(priceBefore.toNumber(), 50)
 
-      await cuboIdo.updatePrice(5, { from: owner }) // Value in cents! 0.05 OX
+      await omegaIdo.updatePrice(5, { from: owner }) // Value in cents! 0.05 OX
 
-      const priceAfter = await cuboIdo.pricePerOmegaPercent.call()
+      const priceAfter = await omegaIdo.pricePerOmegaPercent.call()
       assert.equal(priceAfter.toNumber(), 5)
     })
 
     it('updates OM IDO price from 5 OX to 100 OX', async () => {
-      const priceBefore = await cuboIdo.pricePerOmegaPercent.call()
+      const priceBefore = await omegaIdo.pricePerOmegaPercent.call()
       assert.equal(priceBefore.toNumber(), 5)
 
-      await cuboIdo.updatePrice(100, { from: owner }) // Value in cents! 1 OX
+      await omegaIdo.updatePrice(100, { from: owner }) // Value in cents! 1 OX
 
-      const priceAfter = await cuboIdo.pricePerOmegaPercent.call()
+      const priceAfter = await omegaIdo.pricePerOmegaPercent.call()
       assert.equal(priceAfter.toNumber(), 100)
     })
   })
 
   describe('#withdrawOmegaFromIdo', async () => {
     it('fails for non-owner', async () => {
-      const daiAmountBefore = await cuboToken.balanceOf.call(cuboIdo.address)
-      assert.equal(daiAmountBefore, tokens('998888.5'))
+      const oxAmountBefore = await omegaToken.balanceOf.call(omegaIdo.address)
+      assert.equal(oxAmountBefore, tokens('998888.5'))
 
       try {
-        await cuboIdo.withdrawOmegaFromIdo(teamMember1, tokens('1000'), { from: teamMember1 })
+        await omegaIdo.withdrawOmegaFromIdo(teamMember1, tokens('1000'), { from: teamMember1 })
       } catch {}
 
-      const daiAmountAfter = await cuboToken.balanceOf.call(cuboIdo.address)
-      assert.equal(daiAmountAfter, tokens('998888.5'))
+      const oxAmountAfter = await omegaToken.balanceOf.call(omegaIdo.address)
+      assert.equal(oxAmountAfter, tokens('998888.5'))
     })
 
     it('withraw some OM from IDO contract', async () => {
-      const cuboAmountBefore = await cuboToken.balanceOf.call(cuboIdo.address)
-      assert.equal(cuboAmountBefore, tokens('998888.5'))
+      const omegaAmountBefore = await omegaToken.balanceOf.call(omegaIdo.address)
+      assert.equal(omegaAmountBefore, tokens('998888.5'))
 
-      await cuboIdo.withdrawOmegaFromIdo(teamMember1, tokens('1000'), { from: owner })
+      await omegaIdo.withdrawOmegaFromIdo(teamMember1, tokens('1000'), { from: owner })
 
-      const cuboAmountAfter = await cuboToken.balanceOf.call(cuboIdo.address)
-      assert.equal(cuboAmountAfter, tokens('997888.5'))
+      const omegaAmountAfter = await omegaToken.balanceOf.call(omegaIdo.address)
+      assert.equal(omegaAmountAfter, tokens('997888.5'))
 
-      const cuboAmountToAddress = await cuboToken.balanceOf.call(teamMember1)
-      assert.equal(cuboAmountToAddress, tokens('1000'))
+      const omegaAmountToAddress = await omegaToken.balanceOf.call(teamMember1)
+      assert.equal(omegaAmountToAddress, tokens('1000'))
     })
 
     it('withraw all OM from IDO contract', async () => {
-      const cuboAmountBefore = await cuboToken.balanceOf.call(cuboIdo.address)
-      assert.equal(cuboAmountBefore, tokens('997888.5'))
+      const omegaAmountBefore = await omegaToken.balanceOf.call(omegaIdo.address)
+      assert.equal(omegaAmountBefore, tokens('997888.5'))
 
-      await cuboIdo.withdrawOmegaFromIdo(teamMember1, cuboAmountBefore, { from: owner })
+      await omegaIdo.withdrawOmegaFromIdo(teamMember1, omegaAmountBefore, { from: owner })
 
-      const cuboAmountAfter = await cuboToken.balanceOf.call(cuboIdo.address)
-      assert.equal(cuboAmountAfter, tokens('0'))
+      const omegaAmountAfter = await omegaToken.balanceOf.call(omegaIdo.address)
+      assert.equal(omegaAmountAfter, tokens('0'))
 
-      const cuboAmountToAddress = await cuboToken.balanceOf.call(teamMember1)
-      assert.equal(cuboAmountToAddress, tokens('998888.5'))
+      const omegaAmountToAddress = await omegaToken.balanceOf.call(teamMember1)
+      assert.equal(omegaAmountToAddress, tokens('998888.5'))
     })
   })
 
   describe('#withdrawOxFromIdo', async () => {
     before(async () => {
-      const initOxAmount = await daiToken.balanceOf.call(owner)
-      await daiToken.transfer(cuboIdo.address, initOxAmount, { from: owner })
+      const initOxAmount = await oxToken.balanceOf.call(owner)
+      await oxToken.transfer(omegaIdo.address, initOxAmount, { from: owner })
     })
 
     it('fails for non-owner', async () => {
-      const daiAmountBefore = await daiToken.balanceOf.call(cuboIdo.address)
-      assert.equal(daiAmountBefore, tokens('998555.75'))
+      const oxAmountBefore = await oxToken.balanceOf.call(omegaIdo.address)
+      assert.equal(oxAmountBefore, tokens('998555.75'))
 
       try {
-        await cuboIdo.withdrawOxFromIdo(user1, tokens('1000'), { from: user1 })
+        await omegaIdo.withdrawOxFromIdo(user1, tokens('1000'), { from: user1 })
       } catch {}
 
-      const daiAmountAfter = await daiToken.balanceOf.call(cuboIdo.address)
-      assert.equal(daiAmountAfter, tokens('998555.75'))
+      const oxAmountAfter = await oxToken.balanceOf.call(omegaIdo.address)
+      assert.equal(oxAmountAfter, tokens('998555.75'))
     })
 
     it('withraw some OM from IDO contract', async () => {
-      const daiAmountBefore = await daiToken.balanceOf.call(cuboIdo.address)
-      assert.equal(daiAmountBefore, tokens('998555.75'))
+      const oxAmountBefore = await oxToken.balanceOf.call(omegaIdo.address)
+      assert.equal(oxAmountBefore, tokens('998555.75'))
 
-      await cuboIdo.withdrawOxFromIdo(teamMember1, tokens('1000'), { from: owner })
+      await omegaIdo.withdrawOxFromIdo(teamMember1, tokens('1000'), { from: owner })
 
-      const daiAmountAfter = await daiToken.balanceOf.call(cuboIdo.address)
-      assert.equal(daiAmountAfter, tokens('997555.75'))
+      const oxAmountAfter = await oxToken.balanceOf.call(omegaIdo.address)
+      assert.equal(oxAmountAfter, tokens('997555.75'))
 
-      const daiAmountToAddress = await daiToken.balanceOf.call(teamMember1)
-      assert.equal(daiAmountToAddress, tokens('1000'))
+      const oxAmountToAddress = await oxToken.balanceOf.call(teamMember1)
+      assert.equal(oxAmountToAddress, tokens('1000'))
     })
 
     it('withraw all OM from IDO contract', async () => {
-      const daiAmountBefore = await daiToken.balanceOf.call(cuboIdo.address)
-      assert.equal(daiAmountBefore, tokens('997555.75'))
+      const oxAmountBefore = await oxToken.balanceOf.call(omegaIdo.address)
+      assert.equal(oxAmountBefore, tokens('997555.75'))
 
-      await cuboIdo.withdrawOxFromIdo(teamMember1, daiAmountBefore, { from: owner })
+      await omegaIdo.withdrawOxFromIdo(teamMember1, oxAmountBefore, { from: owner })
 
-      const daiAmountAfter = await daiToken.balanceOf.call(cuboIdo.address)
-      assert.equal(daiAmountAfter, tokens('0'))
+      const oxAmountAfter = await oxToken.balanceOf.call(omegaIdo.address)
+      assert.equal(oxAmountAfter, tokens('0'))
 
-      const daiAmountToAddress = await daiToken.balanceOf.call(teamMember1)
-      assert.equal(daiAmountToAddress, tokens('998555.75'))
+      const oxAmountToAddress = await oxToken.balanceOf.call(teamMember1)
+      assert.equal(oxAmountToAddress, tokens('998555.75'))
     })
   })
 })

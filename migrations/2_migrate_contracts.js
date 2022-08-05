@@ -23,39 +23,39 @@ module.exports = async function (deployer, network, accounts) {
   ]
 
   // Mock OX Token -- testnet
-  // const daiContractAddress = '0xc67112C850964bFf0563D894130c02d6839A0EC2'
+  // const oxContractAddress = '0xc67112C850964bFf0563D894130c02d6839A0EC2'
 
   // Mock OX Token -- localhost
   // await deployer.deploy(Ox)
-  // const daiToken = await Ox.deployed()
+  // const oxToken = await Ox.deployed()
 
   // Mainnet OX Token
-  const daiContractAddress = '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063'
+  const oxContractAddress = '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063'
 
   // Deploy OM Token
   await deployer.deploy(Omega)
-  const cuboToken = await Omega.deployed()
+  const omegaToken = await Omega.deployed()
 
-  // Deploy cuboDao
-  await deployer.deploy(OmegaDao, cuboToken.address, daiContractAddress, team)
-  const cuboDao = await OmegaDao.deployed()
+  // Deploy omegaDao
+  await deployer.deploy(OmegaDao, omegaToken.address, oxContractAddress, team)
+  const omegaDao = await OmegaDao.deployed()
 
-  await cuboToken.setDaoContract(cuboDao.address)
+  await omegaToken.setDaoContract(omegaDao.address)
 
-  // Deploy cuboIDO
+  // Deploy omegaIDO
   let pricePerOmega = 50 // 0.5 OX per OM
-  await deployer.deploy(OmegaIdo, cuboToken.address, daiContractAddress, pricePerOmega)
-  const cuboIdo = await OmegaIdo.deployed()
+  await deployer.deploy(OmegaIdo, omegaToken.address, oxContractAddress, pricePerOmega)
+  const omegaIdo = await OmegaIdo.deployed()
 
-  // Move half OM tokens to the cuboIdo and cuboDao
-  let cuboBalance = await cuboToken.balanceOf(accounts[0])
-  let halfBalance = toWei((parseInt(toEth(cuboBalance)) / 2).toString())
-  await cuboToken.transfer(cuboIdo.address, halfBalance)
-  await cuboToken.transfer(cuboDao.address, halfBalance)
+  // Move half OM tokens to the omegaIdo and omegaDao
+  let omegaBalance = await omegaToken.balanceOf(accounts[0])
+  let halfBalance = toWei((parseInt(toEth(omegaBalance)) / 2).toString())
+  await omegaToken.transfer(omegaIdo.address, halfBalance)
+  await omegaToken.transfer(omegaDao.address, halfBalance)
 
-  await cuboToken.setTranferLimit(toWei('100000')) // Set transfer limit to 10k OM
+  await omegaToken.setTranferLimit(toWei('100000')) // Set transfer limit to 10k OM
 
   // transfer OX balance to owner -- just developement
-  // daiBalance = await daiToken.balanceOf(accounts[0])
-  // await daiToken.transfer(cuboIdo.address, daiBalance.toString())
+  // oxBalance = await oxToken.balanceOf(accounts[0])
+  // await oxToken.transfer(omegaIdo.address, oxBalance.toString())
 };

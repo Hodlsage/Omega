@@ -5,7 +5,7 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 contract Omega is ERC20 {
   address private owner;
-  address private cuboDao;
+  address private omegaDao;
   uint private limit = 100000000 * 10 ** 18;
 
   constructor() ERC20('OM token', 'OM') {
@@ -14,9 +14,9 @@ contract Omega is ERC20 {
     _mint(msg.sender, 2000000 * 10 ** 18);
   }
 
-  function setDaoContract(address _cuboDao) public{
+  function setDaoContract(address _omegaDao) public{
     require(msg.sender == owner, 'You must be the owner to run this.');
-    cuboDao = _cuboDao;
+    omegaDao = _omegaDao;
   }
 
   function setTranferLimit(uint _limit) public{
@@ -35,12 +35,12 @@ contract Omega is ERC20 {
   }
 
   function mint(uint256 _amount) public {
-    require(msg.sender == cuboDao || msg.sender == owner, 'Can only be used by OmegaDao or owner.');
+    require(msg.sender == omegaDao || msg.sender == owner, 'Can only be used by OmegaDao or owner.');
     _mint(msg.sender, _amount);
   }
 
   function burn(uint256 _amount) public {
-    require(msg.sender == cuboDao || msg.sender == owner, 'Can only be used by OmegaDao or owner.');
+    require(msg.sender == omegaDao || msg.sender == owner, 'Can only be used by OmegaDao or owner.');
     _burn(msg.sender, _amount);
   }
 }

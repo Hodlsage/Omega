@@ -11,192 +11,192 @@ function tokens(n) {
 }
 
 contract('OmegaDao', ([owner, investor, teamMember1, teamMember2, teamMember3, user1]) => {
-  let cuboToken, daiToken, cuboDao, pool
+  let omegaToken, oxToken, omegaDao, pool
 
   before(async () => {
-    cuboToken = await Omega.new()
-    daiToken = await Ox.new()
-    cuboDao = await OmegaDao2.new(
-      cuboToken.address,
-      daiToken.address,
+    omegaToken = await Omega.new()
+    oxToken = await Ox.new()
+    omegaDao = await OmegaDao2.new(
+      omegaToken.address,
+      oxToken.address,
       [teamMember1, teamMember2, teamMember3]
     )
-    pool = cuboDao.address
+    pool = omegaDao.address
 
-    await cuboToken.setDaoContract(cuboDao.address)
+    await omegaToken.setDaoContract(omegaDao.address)
   })
 
   describe('Contract constructor', async () => {
     it('assigns team nodes', async () => {
-      const teamMemberAddress0 = await cuboDao.cuboNodesAddresses.call(0)
+      const teamMemberAddress0 = await omegaDao.omegaNodesAddresses.call(0)
       assert.equal(teamMemberAddress0, teamMember1)
 
-      const teamMemberAddress1 = await cuboDao.cuboNodesAddresses.call(1)
+      const teamMemberAddress1 = await omegaDao.omegaNodesAddresses.call(1)
       assert.equal(teamMemberAddress1, teamMember2)
     })
 
     it('has correct number of nodes', async () => {
-      const teamMemberAccount0 = await cuboDao.accounts.call(teamMember1)
+      const teamMemberAccount0 = await omegaDao.accounts.call(teamMember1)
       assert.equal(teamMemberAccount0.gigaCount, 10)
 
-      const teamMemberAccount1 = await cuboDao.accounts.call(teamMember2)
+      const teamMemberAccount1 = await omegaDao.accounts.call(teamMember2)
       assert.equal(teamMemberAccount1.gigaCount, 10)
     })
 
     it('total nodes are 30', async () => {
-      const totalNodes = await cuboDao.totalNodes.call()
+      const totalNodes = await omegaDao.totalNodes.call()
       assert.equal(totalNodes, 30)
     })
   })
 
   describe('#mintNode', async () => {
     before(async () => {
-      await daiToken.transfer(investor, tokens('10000'), { from: owner })
-      await cuboToken.transfer(investor, tokens('1000'), { from: owner })
+      await oxToken.transfer(investor, tokens('10000'), { from: owner })
+      await omegaToken.transfer(investor, tokens('1000'), { from: owner })
 
-      await daiToken.transfer(teamMember1, tokens('10000'), { from: owner })
-      await cuboToken.transfer(teamMember1, tokens('1000'), { from: owner })
+      await oxToken.transfer(teamMember1, tokens('10000'), { from: owner })
+      await omegaToken.transfer(teamMember1, tokens('1000'), { from: owner })
     })
 
     it('mints first node for user', async () => {
-      result = await daiToken.balanceOf(investor)
+      result = await oxToken.balanceOf(investor)
       assert.equal(result.toString(), tokens('10000'), 'investor OX wallet balance correct before minting node')
 
-      result = await cuboToken.balanceOf(investor)
+      result = await omegaToken.balanceOf(investor)
       assert.equal(result.toString(), tokens('1000'), 'investor OM wallet balance correct before minting node')
 
-      result = await daiToken.balanceOf(pool)
+      result = await oxToken.balanceOf(pool)
       assert.equal(result.toString(), tokens('0'), 'OX pool wallet balance correct before minting node')
 
-      result = await cuboToken.balanceOf(pool)
+      result = await omegaToken.balanceOf(pool)
       assert.equal(result.toString(), tokens('0'), 'OM pool wallet balance correct before minting node')
 
-      await daiToken.approve(cuboDao.address, tokens('1000000'), { from: investor })
-      await cuboToken.approve(cuboDao.address, tokens('1000000'), { from: investor })
+      await oxToken.approve(omegaDao.address, tokens('1000000'), { from: investor })
+      await omegaToken.approve(omegaDao.address, tokens('1000000'), { from: investor })
 
-      await cuboDao.mintNode(investor, tokens('500'), tokens('500'), 2, { from: investor })
+      await omegaDao.mintNode(investor, tokens('500'), tokens('500'), 2, { from: investor })
 
-      result = await daiToken.balanceOf(pool)
+      result = await oxToken.balanceOf(pool)
       assert.equal(result.toString(), tokens('500'), 'pool OX wallet balance correct after minting node')
 
-      result = await cuboToken.balanceOf(pool)
+      result = await omegaToken.balanceOf(pool)
       assert.equal(result.toString(), tokens('500'), 'pool OM wallet balance correct after minting node')
 
-      const accountForAddress = await cuboDao.accounts.call(investor)
+      const accountForAddress = await omegaDao.accounts.call(investor)
       assert.equal(accountForAddress.kiloCount, 1)
 
-      const totalNodes = await cuboDao.totalNodes.call()
+      const totalNodes = await omegaDao.totalNodes.call()
       assert.equal(totalNodes, 31)
     })
 
     it('mints another node for user', async () => {
-      result = await daiToken.balanceOf(teamMember1)
+      result = await oxToken.balanceOf(teamMember1)
       assert.equal(result.toString(), tokens('10000'), 'investor OX wallet balance correct before minting node')
 
-      result = await cuboToken.balanceOf(teamMember1)
+      result = await omegaToken.balanceOf(teamMember1)
       assert.equal(result.toString(), tokens('1000'), 'investor OM wallet balance correct before minting node')
 
-      result = await daiToken.balanceOf(pool)
+      result = await oxToken.balanceOf(pool)
       assert.equal(result.toString(), tokens('500'), 'OX pool wallet balance correct before minting node')
 
-      result = await cuboToken.balanceOf(pool)
+      result = await omegaToken.balanceOf(pool)
       assert.equal(result.toString(), tokens('500'), 'OX pool wallet balance correct before minting node')
 
-      await daiToken.approve(cuboDao.address, tokens('500'), { from: teamMember1 })
-      await cuboToken.approve(cuboDao.address, tokens('500'), { from: teamMember1 })
+      await oxToken.approve(omegaDao.address, tokens('500'), { from: teamMember1 })
+      await omegaToken.approve(omegaDao.address, tokens('500'), { from: teamMember1 })
 
-      await cuboDao.mintNode(teamMember1, tokens('500'), tokens('500'), 2, { from: teamMember1 })
+      await omegaDao.mintNode(teamMember1, tokens('500'), tokens('500'), 2, { from: teamMember1 })
 
-      result = await daiToken.balanceOf(pool)
+      result = await oxToken.balanceOf(pool)
       assert.equal(result.toString(), tokens('1000'), 'pool OX wallet balance correct after minting node')
 
-      result = await cuboToken.balanceOf(pool)
+      result = await omegaToken.balanceOf(pool)
       assert.equal(result.toString(), tokens('1000'), 'pool OM wallet balance correct after minting node')
 
-      const accountForAddress = await cuboDao.accounts.call(teamMember1)
+      const accountForAddress = await omegaDao.accounts.call(teamMember1)
       assert.equal(accountForAddress.kiloCount, 1)
       assert.equal(accountForAddress.gigaCount, 10)
 
-      const totalNodes = await cuboDao.totalNodes.call()
+      const totalNodes = await omegaDao.totalNodes.call()
       assert.equal(totalNodes, 32)
     })
   })
 
   describe('#payInterest', async () => {
     it('pays interest to node holders', async () => {
-      let accountForAddress = await cuboDao.accounts.call(teamMember1)
+      let accountForAddress = await omegaDao.accounts.call(teamMember1)
       assert.equal(accountForAddress.gigaCount, 10)
       assert.equal(accountForAddress.kiloCount, 1)
       assert.equal(accountForAddress.nanoCount, 0)
       assert.equal(accountForAddress.interestAccumulated, 0)
 
-      accountForAddress = await cuboDao.accounts.call(teamMember2)
+      accountForAddress = await omegaDao.accounts.call(teamMember2)
       assert.equal(accountForAddress.gigaCount, 10)
       assert.equal(accountForAddress.kiloCount, 0)
       assert.equal(accountForAddress.nanoCount, 0)
       assert.equal(accountForAddress.interestAccumulated, 0)
 
-      accountForAddress = await cuboDao.accounts.call(teamMember3)
+      accountForAddress = await omegaDao.accounts.call(teamMember3)
       assert.equal(accountForAddress.gigaCount, 10)
       assert.equal(accountForAddress.kiloCount, 0)
       assert.equal(accountForAddress.nanoCount, 0)
       assert.equal(accountForAddress.interestAccumulated, 0)
 
-      accountForAddress = await cuboDao.accounts.call(investor)
+      accountForAddress = await omegaDao.accounts.call(investor)
       assert.equal(accountForAddress.gigaCount, 0)
       assert.equal(accountForAddress.kiloCount, 1)
       assert.equal(accountForAddress.nanoCount, 0)
       assert.equal(accountForAddress.interestAccumulated, 0)
 
       // runs day 1
-      await cuboDao.payInterest({ from: owner })
+      await omegaDao.payInterest({ from: owner })
 
-      accountForAddress = await cuboDao.accounts.call(teamMember1)
+      accountForAddress = await omegaDao.accounts.call(teamMember1)
       assert.equal(accountForAddress.gigaCount, 10)
       assert.equal(accountForAddress.kiloCount, 1)
       assert.equal(accountForAddress.nanoCount, 0)
       assert.equal(accountForAddress.interestAccumulated, tokens('1007'))
 
-      accountForAddress = await cuboDao.accounts.call(teamMember2)
+      accountForAddress = await omegaDao.accounts.call(teamMember2)
       assert.equal(accountForAddress.gigaCount, 10)
       assert.equal(accountForAddress.kiloCount, 0)
       assert.equal(accountForAddress.nanoCount, 0)
       assert.equal(accountForAddress.interestAccumulated, tokens('1000'))
 
-      accountForAddress = await cuboDao.accounts.call(teamMember3)
+      accountForAddress = await omegaDao.accounts.call(teamMember3)
       assert.equal(accountForAddress.gigaCount, 10)
       assert.equal(accountForAddress.kiloCount, 0)
       assert.equal(accountForAddress.nanoCount, 0)
       assert.equal(accountForAddress.interestAccumulated, tokens('1000'))
 
-      accountForAddress = await cuboDao.accounts.call(investor)
+      accountForAddress = await omegaDao.accounts.call(investor)
       assert.equal(accountForAddress.gigaCount, 0)
       assert.equal(accountForAddress.kiloCount, 1)
       assert.equal(accountForAddress.nanoCount, 0)
       assert.equal(accountForAddress.interestAccumulated, tokens('7'))
 
       // runs day 2
-      await cuboDao.payInterest({ from: owner })
+      await omegaDao.payInterest({ from: owner })
 
-      accountForAddress = await cuboDao.accounts.call(teamMember1)
+      accountForAddress = await omegaDao.accounts.call(teamMember1)
       assert.equal(accountForAddress.gigaCount, 10)
       assert.equal(accountForAddress.kiloCount, 1)
       assert.equal(accountForAddress.nanoCount, 0)
       assert.equal(accountForAddress.interestAccumulated, tokens('2014'))
 
-      accountForAddress = await cuboDao.accounts.call(teamMember2)
+      accountForAddress = await omegaDao.accounts.call(teamMember2)
       assert.equal(accountForAddress.gigaCount, 10)
       assert.equal(accountForAddress.kiloCount, 0)
       assert.equal(accountForAddress.nanoCount, 0)
       assert.equal(accountForAddress.interestAccumulated, tokens('2000'))
 
-      accountForAddress = await cuboDao.accounts.call(teamMember3)
+      accountForAddress = await omegaDao.accounts.call(teamMember3)
       assert.equal(accountForAddress.gigaCount, 10)
       assert.equal(accountForAddress.kiloCount, 0)
       assert.equal(accountForAddress.nanoCount, 0)
       assert.equal(accountForAddress.interestAccumulated, tokens('2000'))
 
-      accountForAddress = await cuboDao.accounts.call(investor)
+      accountForAddress = await omegaDao.accounts.call(investor)
       assert.equal(accountForAddress.gigaCount, 0)
       assert.equal(accountForAddress.kiloCount, 1)
       assert.equal(accountForAddress.nanoCount, 0)
@@ -206,19 +206,19 @@ contract('OmegaDao', ([owner, investor, teamMember1, teamMember2, teamMember3, u
 
   describe('#widthrawInterest', async () => {
     it('user can widthraw their OM interest', async () => {
-      accountForAddress = await cuboDao.accounts.call(investor)
+      accountForAddress = await omegaDao.accounts.call(investor)
       assert.equal(accountForAddress.kiloCount, 1)
       assert.equal(accountForAddress.interestAccumulated, tokens('14'))
 
-      result = await cuboToken.balanceOf(investor)
+      result = await omegaToken.balanceOf(investor)
       assert.equal(result.toString(), tokens('500'), 'pool OM wallet balance correct after minting node')
 
-      await cuboDao.widthrawInterest(investor, { from: investor })
+      await omegaDao.widthrawInterest(investor, { from: investor })
 
-      accountForAddress = await cuboDao.accounts.call(investor)
+      accountForAddress = await omegaDao.accounts.call(investor)
       assert.equal(accountForAddress.interestAccumulated, 0)
 
-      result = await cuboToken.balanceOf(investor)
+      result = await omegaToken.balanceOf(investor)
       assert.equal(result.toString(), tokens('514'), 'pool OM wallet balance correct after minting node')
     })
   })
@@ -226,68 +226,68 @@ contract('OmegaDao', ([owner, investor, teamMember1, teamMember2, teamMember3, u
   describe('#balancePool', async () => {
     it('balances pool when there are too little tokens', async () => {
       // from 96 OM to 220460
-      poolOfOmega = await cuboToken.balanceOf(pool)
+      poolOfOmega = await omegaToken.balanceOf(pool)
       assert.equal(poolOfOmega.toString(), tokens('986'), 'pool OM wallet balance correct before balancing')
 
-      await cuboDao.balancePool({ from: owner })
+      await omegaDao.balancePool({ from: owner })
 
-      result = await cuboToken.balanceOf(pool)
+      result = await omegaToken.balanceOf(pool)
       assert.equal(result.toString(), tokens('1168000'), 'pool OM wallet balance correct after balancing')
     })
 
     it('balances pool when there are too many tokens', async () => {
-      await cuboToken.mint(tokens('10000000'), { from: owner })
-      await cuboToken.transfer(pool, tokens('10000000'), { from: owner })
+      await omegaToken.mint(tokens('10000000'), { from: owner })
+      await omegaToken.transfer(pool, tokens('10000000'), { from: owner })
 
       // from 1220460 OM to 220460
-      poolOfOmega = await cuboToken.balanceOf(pool)
+      poolOfOmega = await omegaToken.balanceOf(pool)
       assert.equal(poolOfOmega.toString(), tokens('11168000'), 'pool OM wallet balance correct before balancing')
 
-      await cuboDao.balancePool({ from: owner })
+      await omegaDao.balancePool({ from: owner })
 
-      result = await cuboToken.balanceOf(pool)
+      result = await omegaToken.balanceOf(pool)
       assert.equal(result.toString(), tokens('1168000'), 'pool OM wallet balance correct after balancing')
     })
   })
 
   describe('#changeInterestRate', async () => {
-    it('updates the daily interest to 3', async () => {
-      result = await cuboDao.cuboInterestRatePercent.call()
+    it('updates the oxly interest to 3', async () => {
+      result = await omegaDao.omegaInterestRatePercent.call()
       assert.equal(result.toString(), '100', 'initial interest when contract is launched.')
 
-      await cuboDao.changeInterestRate(300, { from: owner })
+      await omegaDao.changeInterestRate(300, { from: owner })
 
-      result = await cuboDao.cuboInterestRatePercent.call()
+      result = await omegaDao.omegaInterestRatePercent.call()
       assert.equal(result.toString(), '300', 'interest after change.')
     })
 
-    it('updates the daily interest to 1', async () => {
-      result = await cuboDao.cuboInterestRatePercent.call()
+    it('updates the oxly interest to 1', async () => {
+      result = await omegaDao.omegaInterestRatePercent.call()
       assert.equal(result.toString(), '300', 'initial interest when contract is launched.')
 
-      await cuboDao.changeInterestRate(100, { from: owner })
+      await omegaDao.changeInterestRate(100, { from: owner })
 
-      result = await cuboDao.cuboInterestRatePercent.call()
+      result = await omegaDao.omegaInterestRatePercent.call()
       assert.equal(result.toString(), '100', 'interest after change.')
     })
 
-    it('updates the daily interest to 0.5', async () => {
-      result = await cuboDao.cuboInterestRatePercent.call()
+    it('updates the oxly interest to 0.5', async () => {
+      result = await omegaDao.omegaInterestRatePercent.call()
       assert.equal(result.toString(), '100', 'initial interest when contract is launched.')
 
-      await cuboDao.changeInterestRate(50, { from: owner })
+      await omegaDao.changeInterestRate(50, { from: owner })
 
-      result = await cuboDao.cuboInterestRatePercent.call()
+      result = await omegaDao.omegaInterestRatePercent.call()
       assert.equal(result.toString(), '50', 'interest after change.')
     })
 
-    it('updates the daily interest to 0.3', async () => {
-      result = await cuboDao.cuboInterestRatePercent.call()
+    it('updates the oxly interest to 0.3', async () => {
+      result = await omegaDao.omegaInterestRatePercent.call()
       assert.equal(result.toString(), '50', 'initial interest when contract is launched.')
 
-      await cuboDao.changeInterestRate(30, { from: owner })
+      await omegaDao.changeInterestRate(30, { from: owner })
 
-      result = await cuboDao.cuboInterestRatePercent.call()
+      result = await omegaDao.omegaInterestRatePercent.call()
       assert.equal(result.toString(), '30', 'interest after change.')
     })
   })
@@ -296,28 +296,28 @@ contract('OmegaDao', ([owner, investor, teamMember1, teamMember2, teamMember3, u
     it('burns OM by sending it to an address', async () => {
       target = teamMember3
       amount = tokens('100')
-      balanceBefore = await cuboToken.balanceOf(target)
+      balanceBefore = await omegaToken.balanceOf(target)
       assert.equal(balanceBefore.toString(), '0')
 
-      await cuboDao.burnOmega(target, amount, { from: owner })
+      await omegaDao.burnOmega(target, amount, { from: owner })
 
-      balanceAfter = await cuboToken.balanceOf(target)
+      balanceAfter = await omegaToken.balanceOf(target)
       assert.equal(balanceAfter.toString(), tokens('100'))
     })
 
     it('fails because address isn\'t owner', async () => {
       target = teamMember3
       amount = tokens('100')
-      balanceBefore = await cuboToken.balanceOf(target)
+      balanceBefore = await omegaToken.balanceOf(target)
       assert.equal(balanceBefore.toString(), tokens('100'))
 
       try {
-        await cuboDao.burnOmega(target, amount, { from: teamMember1 })
-        await cuboDao.burnOmega(target, amount, { from: teamMember2 })
-        await cuboDao.burnOmega(target, amount, { from: teamMember3 })
+        await omegaDao.burnOmega(target, amount, { from: teamMember1 })
+        await omegaDao.burnOmega(target, amount, { from: teamMember2 })
+        await omegaDao.burnOmega(target, amount, { from: teamMember3 })
       } catch {}
 
-      balanceAfter = await cuboToken.balanceOf(target)
+      balanceAfter = await omegaToken.balanceOf(target)
       assert.equal(balanceAfter.toString(), tokens('100'))
     })
   })
@@ -326,41 +326,41 @@ contract('OmegaDao', ([owner, investor, teamMember1, teamMember2, teamMember3, u
     it('moves OX by sending it to an address', async () => {
       target = teamMember3
       amount = tokens('100')
-      balanceBefore = await daiToken.balanceOf(target)
+      balanceBefore = await oxToken.balanceOf(target)
       assert.equal(balanceBefore.toString(), '0')
 
-      await cuboDao.addOxToLiquidityPool(target, amount, { from: owner })
+      await omegaDao.addOxToLiquidityPool(target, amount, { from: owner })
 
-      balanceAfter = await daiToken.balanceOf(target)
+      balanceAfter = await oxToken.balanceOf(target)
       assert.equal(balanceAfter.toString(), tokens('100'))
     })
 
     it('fails because address isn\'t owner', async () => {
       target = teamMember3
       amount = tokens('100')
-      balanceBefore = await daiToken.balanceOf(target)
+      balanceBefore = await oxToken.balanceOf(target)
       assert.equal(balanceBefore.toString(), tokens('100'))
 
       try {
-        await cuboDao.addOxToLiquidityPool(target, amount, { from: teamMember1 })
-        await cuboDao.addOxToLiquidityPool(target, amount, { from: teamMember2 })
-        await cuboDao.addOxToLiquidityPool(target, amount, { from: teamMember3 })
+        await omegaDao.addOxToLiquidityPool(target, amount, { from: teamMember1 })
+        await omegaDao.addOxToLiquidityPool(target, amount, { from: teamMember2 })
+        await omegaDao.addOxToLiquidityPool(target, amount, { from: teamMember3 })
       } catch {}
 
-      balanceAfter = await daiToken.balanceOf(target)
+      balanceAfter = await oxToken.balanceOf(target)
       assert.equal(balanceAfter.toString(), tokens('100'))
     })
   })
 
   describe('#awardNode', async () => {
     it('award more nodes to account with existing nodes', async () => {
-      accountForAddress = await cuboDao.accounts.call(teamMember3)
+      accountForAddress = await omegaDao.accounts.call(teamMember3)
       assert.equal(accountForAddress.kiloCount, 0)
       numOfnodesBefore = parseInt(accountForAddress.kiloCount.toString())
 
-      await cuboDao.awardNode(teamMember3, 2, { from: owner })
+      await omegaDao.awardNode(teamMember3, 2, { from: owner })
 
-      accountForAddress = await cuboDao.accounts.call(teamMember3)
+      accountForAddress = await omegaDao.accounts.call(teamMember3)
       assert.equal(accountForAddress.kiloCount, 1)
       numOfnodesAfter = parseInt(accountForAddress.kiloCount.toString())
 
@@ -368,15 +368,15 @@ contract('OmegaDao', ([owner, investor, teamMember1, teamMember2, teamMember3, u
     })
 
     it('fails because from address isn\'t owner', async () => {
-      accountForAddress = await cuboDao.accounts.call(teamMember3)
+      accountForAddress = await omegaDao.accounts.call(teamMember3)
       assert.equal(accountForAddress.kiloCount, 1)
       numOfnodesBefore = parseInt(accountForAddress.kiloCount.toString())
 
       try {
-        await cuboDao.awardNode(teamMember3, 2, { from: teamMember1 })
-        await cuboDao.awardNode(teamMember3, 2, { from: teamMember3 })
+        await omegaDao.awardNode(teamMember3, 2, { from: teamMember1 })
+        await omegaDao.awardNode(teamMember3, 2, { from: teamMember3 })
       } catch {}
-      accountForAddress = await cuboDao.accounts.call(teamMember3)
+      accountForAddress = await omegaDao.accounts.call(teamMember3)
       assert.equal(accountForAddress.kiloCount, 1)
     })
   })

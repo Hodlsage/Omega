@@ -59,8 +59,8 @@ Main = {
   },
 
   loadContract: async () => {
-    const cuboDao = await $.getJSON('contracts/OmegaDao.json')
-    Main.contracts.OmegaDao = TruffleContract(cuboDao)
+    const omegaDao = await $.getJSON('contracts/OmegaDao.json')
+    Main.contracts.OmegaDao = TruffleContract(omegaDao)
     Main.contracts.OmegaDao.setProvider(Main.web3Provider)
 
     const omega = await $.getJSON('contracts/Omega.json')
@@ -68,13 +68,13 @@ Main = {
     Main.contracts.Omega.setProvider(Main.web3Provider)
 
     // OX contract on mainnet
-    const daiContractAddress = '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063'
+    const oxContractAddress = '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063'
     const ox = await $.getJSON('contracts/MainnetOx.json')
     Main.contracts.Ox = TruffleContract(ox)
     Main.contracts.Ox.setProvider(Main.web3Provider)
 
     // // DummyOX contract on testnet
-    // const daiContractAddress = '0xc67112C850964bFf0563D894130c02d6839A0EC2'
+    // const oxContractAddress = '0xc67112C850964bFf0563D894130c02d6839A0EC2'
     // const ox = await $.getJSON('contracts/ExternalOx.json')
     // Main.contracts.Ox = TruffleContract(ox)
     // Main.contracts.Ox.setProvider(Main.web3Provider)
@@ -85,13 +85,13 @@ Main = {
     // Main.contracts.Ox.setProvider(Main.web3Provider)
 
     try {
-      Main.cuboDao = await Main.contracts.OmegaDao.deployed()
+      Main.omegaDao = await Main.contracts.OmegaDao.deployed()
       Main.omega = await Main.contracts.Omega.deployed()
       // Mock OX contract locally
       // Main.ox = await Main.contracts.Ox.deployed()
 
       // DummyOX / OX contract on testnet and mainnet
-      Main.ox = await Main.contracts.Ox.at(daiContractAddress)
+      Main.ox = await Main.contracts.Ox.at(oxContractAddress)
     }
     catch {
       $('#network-alert').show()
@@ -136,10 +136,10 @@ Main = {
     }
   },
   fetchGeneralData: async () => {
-    let totalNodes = await Main.cuboDao.totalNodes.call()
+    let totalNodes = await Main.omegaDao.totalNodes.call()
     $('#total-nodes').html(totalNodes.toString())
 
-    let contractAccount = await Main.cuboDao.accounts(Main.account)
+    let contractAccount = await Main.omegaDao.accounts(Main.account)
     let total = contractAccount.nanoCount.toNumber() * 200
     total += contractAccount.miniCount.toNumber() * 500
     total += contractAccount.kiloCount.toNumber() * 1000
@@ -147,14 +147,14 @@ Main = {
     total += contractAccount.gigaCount.toNumber() * 10000
     $('#tlv').html('$' + total.toLocaleString('us'))
 
-    let cuboPool = await Main.omega.balanceOf(Main.cuboDao.address)
-    let formatedPoolAmount = parseInt(Main.toEth(cuboPool))
+    let omegaPool = await Main.omega.balanceOf(Main.omegaDao.address)
+    let formatedPoolAmount = parseInt(Main.toEth(omegaPool))
     $('#omega-pool').html(formatedPoolAmount.toLocaleString('us'))
     $('#ox-pool').html((total / 2).toLocaleString('us'))
   },
   fetchAccountData: async () => {
     // number of nodes
-    let contractAccount = await Main.cuboDao.accounts(Main.account)
+    let contractAccount = await Main.omegaDao.accounts(Main.account)
     let total = contractAccount.nanoCount.toNumber() + contractAccount.miniCount.toNumber() + contractAccount.kiloCount.toNumber() +
       contractAccount.megaCount.toNumber() + contractAccount.gigaCount.toNumber()
 
@@ -190,15 +190,15 @@ Main = {
     }
 
     // wallet amount of OM
-    cuboBalance = await Main.omega.balanceOf(Main.account)
-    $('#omega-balance').html(Main.toEth(cuboBalance.toString()))
+    omegaBalance = await Main.omega.balanceOf(Main.account)
+    $('#omega-balance').html(Main.toEth(omegaBalance.toString()))
 
     // wallet amount of OX
-    daiBalance = await Main.ox.balanceOf(Main.account)
-    $('#ox-balance').html(Main.toEth(daiBalance.toString()))
+    oxBalance = await Main.ox.balanceOf(Main.account)
+    $('#ox-balance').html(Main.toEth(oxBalance.toString()))
 
-    let allowanceOmega = await Main.omega.allowance(Main.account, Main.cuboDao.address)
-    let allowanceOx = await Main.ox.allowance(Main.account, Main.cuboDao.address)
+    let allowanceOmega = await Main.omega.allowance(Main.account, Main.omegaDao.address)
+    let allowanceOx = await Main.ox.allowance(Main.account, Main.omegaDao.address)
 
     if(allowanceOx > 0 && allowanceOmega > 0) {
       $('#collect-omega').show()
@@ -225,7 +225,7 @@ Main = {
     $('.approve-omega').on('click', async (e) => {
       let amount = Main.toWei('1000000')
       Main.buttonLoadingHelper(e, 'approving...', async () => {
-        await Main.omega.approve(Main.cuboDao.address, amount, { from: Main.account }).once("transactionHash", async (txHash) => {
+        await Main.omega.approve(Main.omegaDao.address, amount, { from: Main.account }).once("transactionHash", async (txHash) => {
           Main.handleTransaction(txHash, 'Approving OM token...')
         })
       })
@@ -233,7 +233,7 @@ Main = {
 
     $('#collect-omega').on('click', async (e) => {
       Main.buttonLoadingHelper(e, 'collecting...', async () => {
-        await Main.cuboDao.widthrawInterest(Main.account, { from: Main.account }).once("transactionHash", async (txHash) => {
+        await Main.omegaDao.widthrawInterest(Main.account, { from: Main.account }).once("transactionHash", async (txHash) => {
           Main.handleTransaction(txHash, 'Collecting OM to your wallet...')
         })
       })
@@ -241,7 +241,7 @@ Main = {
   },
   setupClickProvideOmega: async () => {
     $('#provide-omega').on('click', async () => {
-      let currentBalence = parseInt(Main.toEth(cuboBalance.toString()))
+      let currentBalence = parseInt(Main.toEth(omegaBalance.toString()))
       let amountToProvide = parseInt($('#provide-omega').data('amount'))
 
       if(currentBalence >= amountToProvide){
@@ -251,7 +251,7 @@ Main = {
   },
   setupClickProvideOx: async () => {
     $('#provide-ox').on('click', async () => {
-      let currentBalence = parseInt(Main.toEth(daiBalance.toString()))
+      let currentBalence = parseInt(Main.toEth(oxBalance.toString()))
       let amountToProvide = parseInt($('#provide-ox').data('amount'))
 
       if(currentBalence >= amountToProvide){
@@ -263,19 +263,19 @@ Main = {
     $('#approve-ox').on('click', async (e) => {
       let amount = Main.toWei('100000000')
       Main.buttonLoadingHelper(e, 'approving...', async () => {
-        await Main.ox.approve(Main.cuboDao.address, amount, { from: Main.account }).once("transactionHash", async (txHash) => {
+        await Main.ox.approve(Main.omegaDao.address, amount, { from: Main.account }).once("transactionHash", async (txHash) => {
           Main.handleTransaction(txHash, 'Approving OX token...')
         })
       })
     })
   },
   setupClickMintNode: async () => {
-    let cuboType, tokensVals
+    let omegaType, tokensVals
 
     $('#next-step-modal').on('click', async (e) => {
-      cuboType = $('#omega-type').val()
+      omegaType = $('#omega-type').val()
 
-      switch(cuboType) {
+      switch(omegaType) {
         case '0':
           tokensVals = 100
           break;
@@ -301,29 +301,29 @@ Main = {
       $('#provide-ox').attr('data-amount', tokensVals)
       $('.token-vals').html(tokensVals)
       $('#mint-node').attr('data-amount', tokensVals)
-      $('#mint-node').attr('data-omega-type', cuboType)
+      $('#mint-node').attr('data-omega-type', omegaType)
 
       $('#node-type-modal').hide()
       $('#mint-modal').show()
     })
 
     $('#mint-node').on('click', async (e) => {
-      let cuboAmount = $('#input-omega').val()
-      let daiAmount = $('#input-ox').val()
+      let omegaAmount = $('#input-omega').val()
+      let oxAmount = $('#input-ox').val()
       let amountToProvide = $(e.target).data('amount')
-      let cuboType = $(e.target).data('omega-type')
+      let omegaType = $(e.target).data('omega-type')
 
-      if(cuboAmount < amountToProvide || daiAmount < amountToProvide){
+      if(omegaAmount < amountToProvide || oxAmount < amountToProvide){
         alert('You need to provide ' + amountToProvide + ' OM and ' + amountToProvide + ' OX to mint a node')
         return
       }
 
       Main.buttonLoadingHelper(e, 'minting...', async () => {
-        await Main.cuboDao.mintNode(
+        await Main.omegaDao.mintNode(
           Main.account,
-          Main.toWei(cuboAmount),
-          Main.toWei(daiAmount),
-          cuboType,
+          Main.toWei(omegaAmount),
+          Main.toWei(oxAmount),
+          omegaType,
           { from: Main.account }
         ).once("transactionHash", async (txHash) => {
           Main.handleTransaction(txHash, 'Minting Omega node...')

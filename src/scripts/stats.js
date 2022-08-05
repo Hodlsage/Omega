@@ -39,18 +39,18 @@ Stats = {
     // let ox = await Stats.setupOxToken()
 
     // OX contract on mainnet
-    const daiContractAddress = '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063'
-    let daiArtifact = require('../../build/contracts/MainnetOx.json')
-    Ox = TruffleContract(daiArtifact)
+    const oxContractAddress = '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063'
+    let oxArtifact = require('../../build/contracts/MainnetOx.json')
+    Ox = TruffleContract(oxArtifact)
     Ox.setProvider(provider)
-    let ox = await Ox.at(daiContractAddress)
+    let ox = await Ox.at(oxContractAddress)
 
     console.log('DAO contract address: ' + dao.address)
     console.log('OM contract address: ' + omega.address)
     console.log('OX contract address: ' + ox.address)
 
-    let cuboInterestRatePercent = await dao.cuboInterestRatePercent.call()
-    console.log('Interest per node: ' + (cuboInterestRatePercent.toNumber() / 100))
+    let omegaInterestRatePercent = await dao.omegaInterestRatePercent.call()
+    console.log('Interest per node: ' + (omegaInterestRatePercent.toNumber() / 100))
 
     let amountOx = await ox.balanceOf(dao.address)
     console.log('OX in contract: ' + Stats.toEth(amountOx.toString()))
@@ -60,8 +60,8 @@ Stats = {
 
     let totalNodes = await dao.totalNodes.call()
     console.log(totalNodes.toNumber())
-    let cuboNodesAddresses = await dao.cuboNodesAddresses.call(1)
-    console.log(cuboNodesAddresses)
+    let omegaNodesAddresses = await dao.omegaNodesAddresses.call(1)
+    console.log(omegaNodesAddresses)
 
     console.log('done')
     process.exit()

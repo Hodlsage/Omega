@@ -7,8 +7,8 @@ const owner = process.env.OWNER_WALLET
 BalancePool = {
   setup: async () => {
     provider = new HDWalletProvider(process.env.PRIVATE_KEY, process.env.HOST_URI)
-    cuboDaoArtifact = require('../../build/contracts/OmegaDao.json')
-    OmegaDao = TruffleContract(cuboDaoArtifact)
+    omegaDaoArtifact = require('../../build/contracts/OmegaDao.json')
+    OmegaDao = TruffleContract(omegaDaoArtifact)
     OmegaDao.setProvider(provider)
     return await OmegaDao.deployed()
   },

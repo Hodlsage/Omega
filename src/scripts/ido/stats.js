@@ -38,12 +38,12 @@ Stats = {
     // let ox = await Stats.setupOxToken()
 
     // OX contract on mainnet
-    const daiContractAddress = '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063'
+    const oxContractAddress = '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063'
 
-    let daiArtifact = require('../../../build/contracts/MainnetOx.json')
-    Ox = TruffleContract(daiArtifact)
+    let oxArtifact = require('../../../build/contracts/MainnetOx.json')
+    Ox = TruffleContract(oxArtifact)
     Ox.setProvider(provider)
-    let ox = await Ox.at(daiContractAddress)
+    let ox = await Ox.at(oxContractAddress)
 
     console.log('IDO contract address: ' + ido.address)
     console.log('OM contract address: ' + omega.address)
@@ -55,8 +55,8 @@ Stats = {
     let amountOmega = await omega.balanceOf(ido.address)
     console.log('OM in IDO contract: ' + Stats.toEth(amountOmega.toString()))
 
-    let cuboPrice = await ido.pricePerOmegaPercent.call()
-    console.log('OM price in IDO: ' + cuboPrice.toString())
+    let omegaPrice = await ido.pricePerOmegaPercent.call()
+    console.log('OM price in IDO: ' + omegaPrice.toString())
 
     console.log('done')
     process.exit()
