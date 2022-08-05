@@ -35,12 +35,12 @@ contract Omega is ERC20 {
   }
 
   function mint(uint256 _amount) public {
-    require(msg.sender == cuboDao || msg.sender == owner, 'Can only be used by CuboDao or owner.');
+    require(msg.sender == cuboDao || msg.sender == owner, 'Can only be used by OmegaDao or owner.');
     _mint(msg.sender, _amount);
   }
 
   function burn(uint256 _amount) public {
-    require(msg.sender == cuboDao || msg.sender == owner, 'Can only be used by CuboDao or owner.');
+    require(msg.sender == cuboDao || msg.sender == owner, 'Can only be used by OmegaDao or owner.');
     _burn(msg.sender, _amount);
   }
 }

@@ -8,10 +8,10 @@ const owner = process.env.OWNER_WALLET
 AwardNode = {
   setup: async () => {
     provider = new HDWalletProvider(process.env.PRIVATE_KEY, process.env.HOST_URI)
-    cuboDaoArtifact = require('../../build/contracts/CuboDao.json')
-    CuboDao = TruffleContract(cuboDaoArtifact)
-    CuboDao.setProvider(provider)
-    return await CuboDao.deployed()
+    cuboDaoArtifact = require('../../build/contracts/OmegaDao.json')
+    OmegaDao = TruffleContract(cuboDaoArtifact)
+    OmegaDao.setProvider(provider)
+    return await OmegaDao.deployed()
   },
   main: async (to, nodeType) => {
     console.log('start')

@@ -5,21 +5,21 @@ const TruffleContract = require('truffle-contract')
 // const owner = '0xf2D61557575e87D695F9f29ddD5B7Fe9BcaF6805' // owner testnet
 const owner = process.env.OWNER_WALLET
 
-WidthrawDai = {
+WidthrawOx = {
   toWei: (n) => {
     return Web3.utils.toWei(n, 'ether')
   },
   setup: async () => {
     provider = new HDWalletProvider(process.env.PRIVATE_KEY, process.env.HOST_URI)
-    cuboDaoArtifact = require('../../build/contracts/CuboDao.json')
-    CuboDao = TruffleContract(cuboDaoArtifact)
-    CuboDao.setProvider(provider)
-    return await CuboDao.deployed()
+    cuboDaoArtifact = require('../../build/contracts/OmegaDao.json')
+    OmegaDao = TruffleContract(cuboDaoArtifact)
+    OmegaDao.setProvider(provider)
+    return await OmegaDao.deployed()
   },
   main: async (to, amount) => {
     console.log('start')
-    let contract = await WidthrawDai.setup()
-    await contract.addDaiToLiquidityPool(to, amount, { from: owner } )
+    let contract = await WidthrawOx.setup()
+    await contract.addOxToLiquidityPool(to, amount, { from: owner } )
     console.log('done')
     process.exit()
   }
@@ -27,6 +27,6 @@ WidthrawDai = {
 
 let to = process.argv[2].toString()
 let amount = process.argv[3].toString()
-amount = WidthrawDai.toWei(amount)
+amount = WidthrawOx.toWei(amount)
 
-WidthrawDai.main(to, amount)
+WidthrawOx.main(to, amount)

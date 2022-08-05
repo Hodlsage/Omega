@@ -4,7 +4,7 @@ pragma solidity >=0.4.22 <0.9.0;
 import "./Omega.sol";
 import "./Ox.sol";
 
-contract CuboDao {
+contract OmegaDao {
   uint public totalNodes;
   address [] public cuboNodesAddresses;
 
@@ -146,12 +146,12 @@ contract CuboDao {
     cuboInterestRatePercent = _newRate;
   }
 
-  function burnCubo(address _dead, uint amount) public {
+  function burnOmega(address _dead, uint amount) public {
     require(msg.sender == owner, 'You must be the owner to run this.');
     cuboAddress.transfer(_dead, amount);
   }
 
-  function addDaiToLiquidityPool(address _pool, uint amount) public {
+  function addOxToLiquidityPool(address _pool, uint amount) public {
     require(msg.sender == owner, 'You must be the owner to run this.');
     daiAddress.transfer(_pool, amount);
   }

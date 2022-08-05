@@ -1,6 +1,6 @@
 const Omega = artifacts.require('Omega')
 const Ox = artifacts.require('Ox')
-const CuboDao2 = artifacts.require('CuboDao')
+const OmegaDao2 = artifacts.require('OmegaDao')
 
 require('chai')
   .use(require('chai-as-promised'))
@@ -10,13 +10,13 @@ function tokens(n) {
   return web3.utils.toWei(n, 'ether')
 }
 
-contract('CuboDao', ([owner, investor, teamMember1, teamMember2, teamMember3, user1]) => {
+contract('OmegaDao', ([owner, investor, teamMember1, teamMember2, teamMember3, user1]) => {
   let cuboToken, daiToken, cuboDao, pool
 
   before(async () => {
     cuboToken = await Omega.new()
     daiToken = await Ox.new()
-    cuboDao = await CuboDao2.new(
+    cuboDao = await OmegaDao2.new(
       cuboToken.address,
       daiToken.address,
       [teamMember1, teamMember2, teamMember3]
@@ -226,8 +226,8 @@ contract('CuboDao', ([owner, investor, teamMember1, teamMember2, teamMember3, us
   describe('#balancePool', async () => {
     it('balances pool when there are too little tokens', async () => {
       // from 96 OM to 220460
-      poolOfCubo = await cuboToken.balanceOf(pool)
-      assert.equal(poolOfCubo.toString(), tokens('986'), 'pool OM wallet balance correct before balancing')
+      poolOfOmega = await cuboToken.balanceOf(pool)
+      assert.equal(poolOfOmega.toString(), tokens('986'), 'pool OM wallet balance correct before balancing')
 
       await cuboDao.balancePool({ from: owner })
 
@@ -240,8 +240,8 @@ contract('CuboDao', ([owner, investor, teamMember1, teamMember2, teamMember3, us
       await cuboToken.transfer(pool, tokens('10000000'), { from: owner })
 
       // from 1220460 OM to 220460
-      poolOfCubo = await cuboToken.balanceOf(pool)
-      assert.equal(poolOfCubo.toString(), tokens('11168000'), 'pool OM wallet balance correct before balancing')
+      poolOfOmega = await cuboToken.balanceOf(pool)
+      assert.equal(poolOfOmega.toString(), tokens('11168000'), 'pool OM wallet balance correct before balancing')
 
       await cuboDao.balancePool({ from: owner })
 
@@ -292,14 +292,14 @@ contract('CuboDao', ([owner, investor, teamMember1, teamMember2, teamMember3, us
     })
   })
 
-  describe('#burnCubo', async () => {
+  describe('#burnOmega', async () => {
     it('burns OM by sending it to an address', async () => {
       target = teamMember3
       amount = tokens('100')
       balanceBefore = await cuboToken.balanceOf(target)
       assert.equal(balanceBefore.toString(), '0')
 
-      await cuboDao.burnCubo(target, amount, { from: owner })
+      await cuboDao.burnOmega(target, amount, { from: owner })
 
       balanceAfter = await cuboToken.balanceOf(target)
       assert.equal(balanceAfter.toString(), tokens('100'))
@@ -312,9 +312,9 @@ contract('CuboDao', ([owner, investor, teamMember1, teamMember2, teamMember3, us
       assert.equal(balanceBefore.toString(), tokens('100'))
 
       try {
-        await cuboDao.burnCubo(target, amount, { from: teamMember1 })
-        await cuboDao.burnCubo(target, amount, { from: teamMember2 })
-        await cuboDao.burnCubo(target, amount, { from: teamMember3 })
+        await cuboDao.burnOmega(target, amount, { from: teamMember1 })
+        await cuboDao.burnOmega(target, amount, { from: teamMember2 })
+        await cuboDao.burnOmega(target, amount, { from: teamMember3 })
       } catch {}
 
       balanceAfter = await cuboToken.balanceOf(target)
@@ -322,14 +322,14 @@ contract('CuboDao', ([owner, investor, teamMember1, teamMember2, teamMember3, us
     })
   })
 
-  describe('#addDaiToLiquidityPool', async () => {
+  describe('#addOxToLiquidityPool', async () => {
     it('moves OX by sending it to an address', async () => {
       target = teamMember3
       amount = tokens('100')
       balanceBefore = await daiToken.balanceOf(target)
       assert.equal(balanceBefore.toString(), '0')
 
-      await cuboDao.addDaiToLiquidityPool(target, amount, { from: owner })
+      await cuboDao.addOxToLiquidityPool(target, amount, { from: owner })
 
       balanceAfter = await daiToken.balanceOf(target)
       assert.equal(balanceAfter.toString(), tokens('100'))
@@ -342,9 +342,9 @@ contract('CuboDao', ([owner, investor, teamMember1, teamMember2, teamMember3, us
       assert.equal(balanceBefore.toString(), tokens('100'))
 
       try {
-        await cuboDao.addDaiToLiquidityPool(target, amount, { from: teamMember1 })
-        await cuboDao.addDaiToLiquidityPool(target, amount, { from: teamMember2 })
-        await cuboDao.addDaiToLiquidityPool(target, amount, { from: teamMember3 })
+        await cuboDao.addOxToLiquidityPool(target, amount, { from: teamMember1 })
+        await cuboDao.addOxToLiquidityPool(target, amount, { from: teamMember2 })
+        await cuboDao.addOxToLiquidityPool(target, amount, { from: teamMember3 })
       } catch {}
 
       balanceAfter = await daiToken.balanceOf(target)

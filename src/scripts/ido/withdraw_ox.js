@@ -5,21 +5,21 @@ const TruffleContract = require('truffle-contract')
 // const owner = '0xf2D61557575e87D695F9f29ddD5B7Fe9BcaF6805' // owner testnet
 const owner = process.env.OWNER_WALLET
 
-WithdrawDai = {
+WithdrawOx = {
   toWei: (n) => {
     return Web3.utils.toWei(n, 'ether')
   },
   setup: async () => {
     provider = new HDWalletProvider(process.env.PRIVATE_KEY, process.env.HOST_URI)
-    artifact = require('../../../build/contracts/CuboIdo.json')
-    CuboIdo = TruffleContract(artifact)
-    CuboIdo.setProvider(provider)
-    return await CuboIdo.deployed()
+    artifact = require('../../../build/contracts/OmegaIdo.json')
+    OmegaIdo = TruffleContract(artifact)
+    OmegaIdo.setProvider(provider)
+    return await OmegaIdo.deployed()
   },
   main: async (to, amount) => {
     console.log('start')
-    let contract = await WithdrawDai.setup()
-    await contract.withdrawDaiFromIdo(to, amount, { from: owner } )
+    let contract = await WithdrawOx.setup()
+    await contract.withdrawOxFromIdo(to, amount, { from: owner } )
     console.log('done')
     process.exit()
   }
@@ -27,6 +27,6 @@ WithdrawDai = {
 
 let to = process.argv[2].toString()
 let amount = process.argv[3].toString()
-amount = WithdrawDai.toWei(amount)
+amount = WithdrawOx.toWei(amount)
 
-WithdrawDai.main(to, amount)
+WithdrawOx.main(to, amount)

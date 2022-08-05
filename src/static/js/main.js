@@ -20,15 +20,15 @@ Main = {
       await Main.loadWeb3(false)
     })
 
-    await Main.setupClickProvideCubo()
-    await Main.setupClickProvideDai()
-    await Main.setupClickApproveDai()
+    await Main.setupClickProvideOmega()
+    await Main.setupClickProvideOx()
+    await Main.setupClickApproveOx()
     await Main.setupMetamaskEvents()
     await Main.setupClickAddTokenToWallet()
     await Main.setupClickChangeNetwork()
 
-    $('#max-omega').on('click', Main.maxCuboBtn)
-    $('#max-ox').on('click', Main.maxDaiBtn)
+    $('#max-omega').on('click', Main.maxOmegaBtn)
+    $('#max-ox').on('click', Main.maxOxBtn)
     await Main.toggleLoadingScreen(false)
     console.log('loading done!')
   },
@@ -59,9 +59,9 @@ Main = {
   },
 
   loadContract: async () => {
-    const cuboDao = await $.getJSON('contracts/CuboDao.json')
-    Main.contracts.CuboDao = TruffleContract(cuboDao)
-    Main.contracts.CuboDao.setProvider(Main.web3Provider)
+    const cuboDao = await $.getJSON('contracts/OmegaDao.json')
+    Main.contracts.OmegaDao = TruffleContract(cuboDao)
+    Main.contracts.OmegaDao.setProvider(Main.web3Provider)
 
     const omega = await $.getJSON('contracts/Omega.json')
     Main.contracts.Omega = TruffleContract(omega)
@@ -69,13 +69,13 @@ Main = {
 
     // OX contract on mainnet
     const daiContractAddress = '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063'
-    const ox = await $.getJSON('contracts/MainnetDai.json')
+    const ox = await $.getJSON('contracts/MainnetOx.json')
     Main.contracts.Ox = TruffleContract(ox)
     Main.contracts.Ox.setProvider(Main.web3Provider)
 
     // // DummyDAI contract on testnet
     // const daiContractAddress = '0xc67112C850964bFf0563D894130c02d6839A0EC2'
-    // const ox = await $.getJSON('contracts/ExternalDai.json')
+    // const ox = await $.getJSON('contracts/ExternalOx.json')
     // Main.contracts.Ox = TruffleContract(ox)
     // Main.contracts.Ox.setProvider(Main.web3Provider)
 
@@ -85,7 +85,7 @@ Main = {
     // Main.contracts.Ox.setProvider(Main.web3Provider)
 
     try {
-      Main.cuboDao = await Main.contracts.CuboDao.deployed()
+      Main.cuboDao = await Main.contracts.OmegaDao.deployed()
       Main.omega = await Main.contracts.Omega.deployed()
       // Mock OX contract locally
       // Main.ox = await Main.contracts.Ox.deployed()
@@ -197,19 +197,19 @@ Main = {
     daiBalance = await Main.ox.balanceOf(Main.account)
     $('#ox-balance').html(Main.toEth(daiBalance.toString()))
 
-    let allowanceCubo = await Main.omega.allowance(Main.account, Main.cuboDao.address)
-    let allowanceDai = await Main.ox.allowance(Main.account, Main.cuboDao.address)
+    let allowanceOmega = await Main.omega.allowance(Main.account, Main.cuboDao.address)
+    let allowanceOx = await Main.ox.allowance(Main.account, Main.cuboDao.address)
 
-    if(allowanceDai > 0 && allowanceCubo > 0) {
+    if(allowanceOx > 0 && allowanceOmega > 0) {
       $('#collect-omega').show()
       $('#node-type-modal').show()
     }
-    else if(allowanceDai == 0 && allowanceCubo > 0) {
+    else if(allowanceOx == 0 && allowanceOmega > 0) {
       $('#collect-omega').show()
       $('#approve-ox').show()
       $('#approve-modal').show()
     }
-    else if(allowanceDai > 0 && allowanceCubo == 0) {
+    else if(allowanceOx > 0 && allowanceOmega == 0) {
       $('.approve-omega').show()
       $('#approve-modal').show()
     }
@@ -239,7 +239,7 @@ Main = {
       })
     })
   },
-  setupClickProvideCubo: async () => {
+  setupClickProvideOmega: async () => {
     $('#provide-omega').on('click', async () => {
       let currentBalence = parseInt(Main.toEth(cuboBalance.toString()))
       let amountToProvide = parseInt($('#provide-omega').data('amount'))
@@ -249,7 +249,7 @@ Main = {
       }
     })
   },
-  setupClickProvideDai: async () => {
+  setupClickProvideOx: async () => {
     $('#provide-ox').on('click', async () => {
       let currentBalence = parseInt(Main.toEth(daiBalance.toString()))
       let amountToProvide = parseInt($('#provide-ox').data('amount'))
@@ -259,7 +259,7 @@ Main = {
       }
     })
   },
-  setupClickApproveDai: async () => {
+  setupClickApproveOx: async () => {
     $('#approve-ox').on('click', async (e) => {
       let amount = Main.toWei('100000000')
       Main.buttonLoadingHelper(e, 'approving...', async () => {

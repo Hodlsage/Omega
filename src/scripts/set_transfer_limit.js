@@ -13,7 +13,7 @@ SetTransferLimit = {
     return Web3.utils.fromWei(n, 'ether')
   },
 
-  setupCuboToken: async () => {
+  setupOmegaToken: async () => {
     artifact = require('../../build/contracts/Omega.json')
     Omega = TruffleContract(artifact)
     Omega.setProvider(provider)
@@ -21,7 +21,7 @@ SetTransferLimit = {
   },
   main: async () => {
     console.log('start')
-    let omega = await SetTransferLimit.setupCuboToken()
+    let omega = await SetTransferLimit.setupOmegaToken()
     await omega.setTranferLimit(SetTransferLimit.toWei('10000'), { from: owner })
     console.log('done')
     process.exit()

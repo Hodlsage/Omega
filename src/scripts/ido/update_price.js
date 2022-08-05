@@ -12,15 +12,15 @@ UpdatePrice = {
   toEth: (n) => {
     return Web3.utils.fromWei(n, 'ether')
   },
-  setupCuboIdo: async () => {
-    artifact = require('../../../build/contracts/CuboIdo.json')
-    CuboIdo = TruffleContract(artifact)
-    CuboIdo.setProvider(provider)
-    return await CuboIdo.deployed()
+  setupOmegaIdo: async () => {
+    artifact = require('../../../build/contracts/OmegaIdo.json')
+    OmegaIdo = TruffleContract(artifact)
+    OmegaIdo.setProvider(provider)
+    return await OmegaIdo.deployed()
   },
   main: async () => {
     console.log('start')
-    let ido = await UpdatePrice.setupCuboIdo()
+    let ido = await UpdatePrice.setupOmegaIdo()
     await ido.updatePrice(100, { from: owner })
     console.log('done')
     process.exit()

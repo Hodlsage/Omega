@@ -13,19 +13,19 @@ Stats = {
   toEth: (n) => {
     return Web3.utils.fromWei(n, 'ether')
   },
-  setupCuboIdo: async () => {
-    artifact = require('../../../build/contracts/CuboIdo.json')
-    CuboIdo = TruffleContract(artifact)
-    CuboIdo.setProvider(provider)
-    return await CuboIdo.deployed()
+  setupOmegaIdo: async () => {
+    artifact = require('../../../build/contracts/OmegaIdo.json')
+    OmegaIdo = TruffleContract(artifact)
+    OmegaIdo.setProvider(provider)
+    return await OmegaIdo.deployed()
   },
-  setupCuboToken: async () => {
+  setupOmegaToken: async () => {
     artifact = require('../../../build/contracts/Omega.json')
     Omega = TruffleContract(artifact)
     Omega.setProvider(provider)
     return await Omega.deployed()
   },
-  // setupDaiToken: async () => {
+  // setupOxToken: async () => {
   //   artifact = require('../../../build/contracts/Ox.json')
   //   Ox = TruffleContract(artifact)
   //   Ox.setProvider(provider)
@@ -33,14 +33,14 @@ Stats = {
   // },
   main: async () => {
     console.log('start')
-    let ido = await Stats.setupCuboIdo()
-    let omega = await Stats.setupCuboToken()
-    // let ox = await Stats.setupDaiToken()
+    let ido = await Stats.setupOmegaIdo()
+    let omega = await Stats.setupOmegaToken()
+    // let ox = await Stats.setupOxToken()
 
     // OX contract on mainnet
     const daiContractAddress = '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063'
 
-    let daiArtifact = require('../../../build/contracts/MainnetDai.json')
+    let daiArtifact = require('../../../build/contracts/MainnetOx.json')
     Ox = TruffleContract(daiArtifact)
     Ox.setProvider(provider)
     let ox = await Ox.at(daiContractAddress)
@@ -49,13 +49,13 @@ Stats = {
     console.log('OM contract address: ' + omega.address)
     console.log('OX contract address: ' + ox.address)
 
-    let amountDai = await ox.balanceOf(ido.address)
-    console.log('OX in IDO contract: ' + Stats.toEth(amountDai.toString()))
+    let amountOx = await ox.balanceOf(ido.address)
+    console.log('OX in IDO contract: ' + Stats.toEth(amountOx.toString()))
 
-    let amountCubo = await omega.balanceOf(ido.address)
-    console.log('OM in IDO contract: ' + Stats.toEth(amountCubo.toString()))
+    let amountOmega = await omega.balanceOf(ido.address)
+    console.log('OM in IDO contract: ' + Stats.toEth(amountOmega.toString()))
 
-    let cuboPrice = await ido.pricePerCuboPercent.call()
+    let cuboPrice = await ido.pricePerOmegaPercent.call()
     console.log('OM price in IDO: ' + cuboPrice.toString())
 
     console.log('done')

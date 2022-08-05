@@ -49,9 +49,9 @@ Main = {
     });
   },
   loadContract: async () => {
-    const cuboIdo = await $.getJSON('contracts/CuboIdo.json')
-    Main.contracts.CuboIdo = TruffleContract(cuboIdo)
-    Main.contracts.CuboIdo.setProvider(Main.web3Provider)
+    const cuboIdo = await $.getJSON('contracts/OmegaIdo.json')
+    Main.contracts.OmegaIdo = TruffleContract(cuboIdo)
+    Main.contracts.OmegaIdo.setProvider(Main.web3Provider)
 
     const omega = await $.getJSON('contracts/Omega.json')
     Main.contracts.Omega = TruffleContract(omega)
@@ -59,13 +59,13 @@ Main = {
 
     // OX contract on mainnet
     const daiContractAddress = '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063'
-    const ox = await $.getJSON('contracts/MainnetDai.json')
+    const ox = await $.getJSON('contracts/MainnetOx.json')
     Main.contracts.Ox = TruffleContract(ox)
     Main.contracts.Ox.setProvider(Main.web3Provider)
 
     // // DummyDAI contract on testnet
     // const daiContractAddress = '0xc67112C850964bFf0563D894130c02d6839A0EC2'
-    // const ox = await $.getJSON('contracts/ExternalDai.json')
+    // const ox = await $.getJSON('contracts/ExternalOx.json')
     // Main.contracts.Ox = TruffleContract(ox)
     // Main.contracts.Ox.setProvider(Main.web3Provider)
 
@@ -75,7 +75,7 @@ Main = {
     // Main.contracts.Ox.setProvider(Main.web3Provider)
 
     try {
-      Main.cuboIdo = await Main.contracts.CuboIdo.deployed()
+      Main.cuboIdo = await Main.contracts.OmegaIdo.deployed()
       Main.omega = await Main.contracts.Omega.deployed()
       // Mock OX contract locally
       // Main.ox = await Main.contracts.Ox.deployed()
@@ -128,8 +128,8 @@ Main = {
     daiBalance = await Main.ox.balanceOf(Main.account)
     $('#ox-balance').html(Main.toEth(daiBalance.toString()))
 
-    let allowanceDai = await Main.ox.allowance(Main.account, Main.cuboIdo.address)
-    if(allowanceDai > 0) {
+    let allowanceOx = await Main.ox.allowance(Main.account, Main.cuboIdo.address)
+    if(allowanceOx > 0) {
       $('#buy-omega').show()
     }
     else {
@@ -154,14 +154,14 @@ Main = {
           return
         }
         cuboAmount = Main.toWei(cuboAmount.toString())
-        await Main.cuboIdo.sellCuboToken(Main.account, cuboAmount, { from: Main.account }).once("transactionHash", async (txHash) => {
+        await Main.cuboIdo.sellOmegaToken(Main.account, cuboAmount, { from: Main.account }).once("transactionHash", async (txHash) => {
           Main.handleTransaction(txHash, 'Transfering OM to your wallet...')
         })
       })
     })
 
     $('#input-omega').on('keyup', async (e) => {
-      let cuboPrice = await Main.cuboIdo.pricePerCuboPercent()
+      let cuboPrice = await Main.cuboIdo.pricePerOmegaPercent()
       cuboPrice = parseFloat(cuboPrice.toString()) / 100
       let inputVal = parseFloat($(e.target).val())
       $('#ox-value').html(cuboPrice * inputVal)

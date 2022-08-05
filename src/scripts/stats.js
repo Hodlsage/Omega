@@ -13,19 +13,19 @@ Stats = {
   toEth: (n) => {
     return Web3.utils.fromWei(n, 'ether')
   },
-  setupCuboDao: async () => {
-    artifact = require('../../build/contracts/CuboDao.json')
-    CuboDao = TruffleContract(artifact)
-    CuboDao.setProvider(provider)
-    return await CuboDao.deployed()
+  setupOmegaDao: async () => {
+    artifact = require('../../build/contracts/OmegaDao.json')
+    OmegaDao = TruffleContract(artifact)
+    OmegaDao.setProvider(provider)
+    return await OmegaDao.deployed()
   },
-  setupCuboToken: async () => {
+  setupOmegaToken: async () => {
     artifact = require('../../build/contracts/Omega.json')
     Omega = TruffleContract(artifact)
     Omega.setProvider(provider)
     return await Omega.deployed()
   },
-  setupDaiToken: async () => {
+  setupOxToken: async () => {
     artifact = require('../../build/contracts/Ox.json')
     Ox = TruffleContract(artifact)
     Ox.setProvider(provider)
@@ -33,14 +33,14 @@ Stats = {
   },
   main: async () => {
     console.log('start')
-    let dao = await Stats.setupCuboDao()
-    let omega = await Stats.setupCuboToken()
+    let dao = await Stats.setupOmegaDao()
+    let omega = await Stats.setupOmegaToken()
 
-    // let ox = await Stats.setupDaiToken()
+    // let ox = await Stats.setupOxToken()
 
     // OX contract on mainnet
     const daiContractAddress = '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063'
-    let daiArtifact = require('../../build/contracts/MainnetDai.json')
+    let daiArtifact = require('../../build/contracts/MainnetOx.json')
     Ox = TruffleContract(daiArtifact)
     Ox.setProvider(provider)
     let ox = await Ox.at(daiContractAddress)
@@ -52,11 +52,11 @@ Stats = {
     let cuboInterestRatePercent = await dao.cuboInterestRatePercent.call()
     console.log('Interest per node: ' + (cuboInterestRatePercent.toNumber() / 100))
 
-    let amountDai = await ox.balanceOf(dao.address)
-    console.log('OX in contract: ' + Stats.toEth(amountDai.toString()))
+    let amountOx = await ox.balanceOf(dao.address)
+    console.log('OX in contract: ' + Stats.toEth(amountOx.toString()))
 
-    let amountCubo = await omega.balanceOf(dao.address)
-    console.log('OM in contract: ' + Stats.toEth(amountCubo.toString()))
+    let amountOmega = await omega.balanceOf(dao.address)
+    console.log('OM in contract: ' + Stats.toEth(amountOmega.toString()))
 
     let totalNodes = await dao.totalNodes.call()
     console.log(totalNodes.toNumber())

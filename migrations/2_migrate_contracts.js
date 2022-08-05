@@ -2,8 +2,8 @@
 // const Ox = artifacts.require("Ox");
 
 const Omega = artifacts.require("Omega");
-const CuboDao = artifacts.require("CuboDao");
-const CuboIdo = artifacts.require("CuboIdo");
+const OmegaDao = artifacts.require("OmegaDao");
+const OmegaIdo = artifacts.require("OmegaIdo");
 const Web3 = require('web3')
 
 function toWei(n) {
@@ -37,15 +37,15 @@ module.exports = async function (deployer, network, accounts) {
   const cuboToken = await Omega.deployed()
 
   // Deploy cuboDao
-  await deployer.deploy(CuboDao, cuboToken.address, daiContractAddress, team)
-  const cuboDao = await CuboDao.deployed()
+  await deployer.deploy(OmegaDao, cuboToken.address, daiContractAddress, team)
+  const cuboDao = await OmegaDao.deployed()
 
   await cuboToken.setDaoContract(cuboDao.address)
 
   // Deploy cuboIDO
-  let pricePerCubo = 50 // 0.5 OX per OM
-  await deployer.deploy(CuboIdo, cuboToken.address, daiContractAddress, pricePerCubo)
-  const cuboIdo = await CuboIdo.deployed()
+  let pricePerOmega = 50 // 0.5 OX per OM
+  await deployer.deploy(OmegaIdo, cuboToken.address, daiContractAddress, pricePerOmega)
+  const cuboIdo = await OmegaIdo.deployed()
 
   // Move half OM tokens to the cuboIdo and cuboDao
   let cuboBalance = await cuboToken.balanceOf(accounts[0])

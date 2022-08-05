@@ -1,6 +1,6 @@
 const Omega = artifacts.require('Omega')
 const Ox = artifacts.require('Ox')
-const CuboDao2 = artifacts.require('CuboDao')
+const OmegaDao2 = artifacts.require('OmegaDao')
 
 require('chai')
   .use(require('chai-as-promised'))
@@ -10,13 +10,13 @@ function tokens(n) {
   return web3.utils.toWei(n, 'ether')
 }
 
-contract('CuboDao', ([owner, investor, teamMember1, teamMember2, teamMember3, user1, user2]) => {
+contract('OmegaDao', ([owner, investor, teamMember1, teamMember2, teamMember3, user1, user2]) => {
   let cuboToken, daiToken, cuboDao, pool
 
   before(async () => {
     cuboToken = await Omega.new()
     daiToken = await Ox.new()
-    cuboDao = await CuboDao2.new(
+    cuboDao = await OmegaDao2.new(
       cuboToken.address,
       daiToken.address,
       [teamMember1, teamMember2, teamMember3]
