@@ -73,7 +73,7 @@ Main = {
     Main.contracts.Ox = TruffleContract(ox)
     Main.contracts.Ox.setProvider(Main.web3Provider)
 
-    // // DummyDAI contract on testnet
+    // // DummyOX contract on testnet
     // const daiContractAddress = '0xc67112C850964bFf0563D894130c02d6839A0EC2'
     // const ox = await $.getJSON('contracts/ExternalOx.json')
     // Main.contracts.Ox = TruffleContract(ox)
@@ -90,7 +90,7 @@ Main = {
       // Mock OX contract locally
       // Main.ox = await Main.contracts.Ox.deployed()
 
-      // DummyDAI / OX contract on testnet and mainnet
+      // DummyOX / OX contract on testnet and mainnet
       Main.ox = await Main.contracts.Ox.at(daiContractAddress)
     }
     catch {
