@@ -251,7 +251,7 @@ contract('OmegaDao', ([owner, investor, teamMember1, teamMember2, teamMember3, u
   })
 
   describe('#changeInterestRate', async () => {
-    it('updates the oxly interest to 3', async () => {
+    it('updates the daily interest to 3', async () => {
       result = await omegaDao.omegaInterestRatePercent.call()
       assert.equal(result.toString(), '100', 'initial interest when contract is launched.')
 
@@ -261,7 +261,7 @@ contract('OmegaDao', ([owner, investor, teamMember1, teamMember2, teamMember3, u
       assert.equal(result.toString(), '300', 'interest after change.')
     })
 
-    it('updates the oxly interest to 1', async () => {
+    it('updates the daily interest to 1', async () => {
       result = await omegaDao.omegaInterestRatePercent.call()
       assert.equal(result.toString(), '300', 'initial interest when contract is launched.')
 
@@ -271,7 +271,7 @@ contract('OmegaDao', ([owner, investor, teamMember1, teamMember2, teamMember3, u
       assert.equal(result.toString(), '100', 'interest after change.')
     })
 
-    it('updates the oxly interest to 0.5', async () => {
+    it('updates the daily interest to 0.5', async () => {
       result = await omegaDao.omegaInterestRatePercent.call()
       assert.equal(result.toString(), '100', 'initial interest when contract is launched.')
 
@@ -281,7 +281,7 @@ contract('OmegaDao', ([owner, investor, teamMember1, teamMember2, teamMember3, u
       assert.equal(result.toString(), '50', 'interest after change.')
     })
 
-    it('updates the oxly interest to 0.3', async () => {
+    it('updates the daily interest to 0.3', async () => {
       result = await omegaDao.omegaInterestRatePercent.call()
       assert.equal(result.toString(), '50', 'initial interest when contract is launched.')
 

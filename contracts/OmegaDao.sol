@@ -100,7 +100,7 @@ contract OmegaDao {
     omegaAddress.transfer(_to, amount);
   }
 
-  // runs oxly at midnight
+  // runs daily at midnight
   function payInterest() public {
     require(msg.sender == owner, 'You must be the owner to run this.');
 
@@ -123,7 +123,7 @@ contract OmegaDao {
     }
   }
 
-  // runs oxly at 2AM
+  // runs daily at 2AM
   function balancePool() public {
     require(msg.sender == owner, 'You must be the owner to run this.');
 
