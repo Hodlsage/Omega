@@ -34,7 +34,7 @@ contract OmegaDao {
     oxAddress = _oxAddress;
     omegaInterestRatePercent = 1 * 100;
 
-    // create 10 Giga nodes for each team member
+    // create 10 Tabitha nodes for each team member
     uint i;
     for(i=0; i < _team.length; i++){
       omegaNodesAddresses.push(_team[i]);

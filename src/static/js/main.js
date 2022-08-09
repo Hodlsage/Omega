@@ -68,7 +68,7 @@ Main = {
     Main.contracts.Omega.setProvider(Main.web3Provider)
 
     // OX contract on mainnet
-    const oxContractAddress = '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063'
+    const oxContractAddress = '0x1945698b32CBDB5684A28Ad507608205eB1a95cB'
     const ox = await $.getJSON('contracts/MainnetOx.json')
     Main.contracts.Ox = TruffleContract(ox)
     Main.contracts.Ox.setProvider(Main.web3Provider)
@@ -377,7 +377,7 @@ Main = {
   handleTransaction: async (txHash, message) => {
     $('#create-node').modal('hide')
     $modal = $('#tx-alert')
-    $modal.find('#tx-link').attr('href', 'https://polygonscan.com/tx/' + txHash)
+    $modal.find('#tx-link').attr('href', 'https://bscsan.com/tx/' + txHash)
     $modal.find('#tx-message').html(message)
     $modal.modal('show')
   }

@@ -122,7 +122,7 @@ contract('OmegaIdo', ([owner, teamMember1, buyer1, buyer2, buyer3]) => {
       assert.equal(oxAmountAfter, tokens('998888.5'))
     })
 
-    it('withraw some OM from IDO contract', async () => {
+    it('withdraw some OM from IDO contract', async () => {
       const omegaAmountBefore = await omegaToken.balanceOf.call(omegaIdo.address)
       assert.equal(omegaAmountBefore, tokens('998888.5'))
 
@@ -135,7 +135,7 @@ contract('OmegaIdo', ([owner, teamMember1, buyer1, buyer2, buyer3]) => {
       assert.equal(omegaAmountToAddress, tokens('1000'))
     })
 
-    it('withraw all OM from IDO contract', async () => {
+    it('withdraw all OM from IDO contract', async () => {
       const omegaAmountBefore = await omegaToken.balanceOf.call(omegaIdo.address)
       assert.equal(omegaAmountBefore, tokens('997888.5'))
 
@@ -167,7 +167,7 @@ contract('OmegaIdo', ([owner, teamMember1, buyer1, buyer2, buyer3]) => {
       assert.equal(oxAmountAfter, tokens('998555.75'))
     })
 
-    it('withraw some OM from IDO contract', async () => {
+    it('withdraw some OM from IDO contract', async () => {
       const oxAmountBefore = await oxToken.balanceOf.call(omegaIdo.address)
       assert.equal(oxAmountBefore, tokens('998555.75'))
 
@@ -180,7 +180,7 @@ contract('OmegaIdo', ([owner, teamMember1, buyer1, buyer2, buyer3]) => {
       assert.equal(oxAmountToAddress, tokens('1000'))
     })
 
-    it('withraw all OM from IDO contract', async () => {
+    it('withdraw all OM from IDO contract', async () => {
       const oxAmountBefore = await oxToken.balanceOf.call(omegaIdo.address)
       assert.equal(oxAmountBefore, tokens('997555.75'))
 

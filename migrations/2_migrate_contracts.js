@@ -30,7 +30,7 @@ module.exports = async function (deployer, network, accounts) {
   // const oxToken = await Ox.deployed()
 
   // Mainnet OX Token
-  const oxContractAddress = '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063'
+  const oxContractAddress = '0x1945698b32CBDB5684A28Ad507608205eB1a95cB'
 
   // Deploy OM Token
   await deployer.deploy(Omega)
