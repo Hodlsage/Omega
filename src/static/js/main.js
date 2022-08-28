@@ -91,7 +91,7 @@ Main = {
       // OX contract locally
       // Main.ox = await Main.contracts.Ox.deployed()
 
-      // OX contract on testnet and mainnet
+      // OX contract on testnet
       Main.ox = await Main.contracts.Ox.at(oxContractAddress)
 
       // OX contract on mainnet
@@ -372,7 +372,7 @@ Main = {
     changeWalletNetwork: async () => {
       await ethereum.request({
         method: 'wallet_switchEthereumChain',
-        params:[ { chainId: '97' } ]
+        params:[ { chainId: '0x61' } ]
       });
 
   },

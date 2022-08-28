@@ -204,11 +204,11 @@ Main = {
   //  });
 
   // TestNet BSC
-  
+
     changeWalletNetwork: async () => {
       await ethereum.request({
         method: 'wallet_switchEthereumChain',
-        params:[ { chainId: '97' } ]
+        params:[ { chainId: '0x61' } ]
       });
   },
 
