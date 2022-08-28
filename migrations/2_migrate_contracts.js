@@ -16,21 +16,19 @@ function toEth(n) {
 
 module.exports = async function (deployer, network, accounts) {
   const team = [
-    '0xB4738b703dF076b947C41936Daaf69764F900B75',
-    '0xc38754F0E05357815Ef614D13431F3BF284255E1',
-    '0x10C1F0227f14BE1faC588dd315040938f72E8b89',
-    '0x8C5DAD87BaDEeE2388915B38C58332385C864DA4'
+    '0xe17634De704a77A44f6957F40499CbfBc187ecb6',
+    '0x1B408886aBBDfdBDC0CC5FFF2D0E982E593F4672'
   ]
 
   // Mock OX Token -- testnet
-  // const oxContractAddress = '0xc67112C850964bFf0563D894130c02d6839A0EC2'
+     const oxContractAddress = '0x8976655C7A049AB6FcFC9123897AdDe13Ebef908'
 
   // Mock OX Token -- localhost
   // await deployer.deploy(Ox)
   // const oxToken = await Ox.deployed()
 
   // Mainnet OX Token
-  const oxContractAddress = '0x1945698b32CBDB5684A28Ad507608205eB1a95cB'
+  // const oxContractAddress = '0xAC2f8fb059C96C481fAE3f4702Ca324664b79B26'
 
   // Deploy OM Token
   await deployer.deploy(Omega)

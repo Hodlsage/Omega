@@ -15,11 +15,11 @@ contract OmegaDao {
 
   struct Account {
     bool exists;
-    uint nanoCount;
-    uint miniCount;
-    uint kiloCount;
-    uint megaCount;
-    uint gigaCount;
+    uint iotaCount;
+    uint lambdaCount;
+    uint phiCount;
+    uint chiliaCount;
+    uint tabithaCount;
     uint interestAccumulated;
   }
 
@@ -61,27 +61,27 @@ contract OmegaDao {
     if(_nodeType == 0){
       require(_omegaAmount >= 100 * 10 ** 18, 'You must provide at least 100 OM for the LP token');
       require(_oxAmount >= 100 * 10 ** 18, 'You must provide at least 100 OX for the LP token');
-      account.nanoCount++;
+      account.iotaCount++;
     }
     else if(_nodeType == 1){
       require(_omegaAmount >= 250 * 10 ** 18, 'You must provide at least 250 OM for the LP token');
       require(_oxAmount >= 250 * 10 ** 18, 'You must provide at least 250 OX for the LP token');
-      account.miniCount++;
+      account.lambdaCount++;
     }
     else if(_nodeType == 2){
       require(_omegaAmount >= 500 * 10 ** 18, 'You must provide at least 500 OM for the LP token');
       require(_oxAmount >= 500 * 10 ** 18, 'You must provide at least 500 OX for the LP token');
-      account.kiloCount++;
+      account.phiCount++;
     }
     else if(_nodeType == 3){
       require(_omegaAmount >= 1000 * 10 ** 18, 'You must provide at least 1000 OM for the LP token');
       require(_oxAmount >= 1000 * 10 ** 18, 'You must provide at least 1000 OX for the LP token');
-      account.megaCount++;
+      account.chiliaCount++;
     }
     else if(_nodeType == 4){
       require(_omegaAmount >= 5000 * 10 ** 18, 'You must provide at least 5000 OM for the LP token');
       require(_oxAmount >= 5000 * 10 ** 18, 'You must provide at least 5000 OX for the LP token');
-      account.gigaCount++;
+      account.tabithaCount++;
     }
     totalNodes++;
     accounts[_address] = account;
@@ -111,11 +111,11 @@ contract OmegaDao {
       uint interestAccumulated;
 
       // add omegaInterestRatePercent/100 OM per node that address has
-      interestAccumulated = (acc.nanoCount * nodeMultiplers[0] * omegaInterestRatePercent * 10 ** 18) / 100;
-      interestAccumulated += (acc.miniCount * nodeMultiplers[1] * omegaInterestRatePercent * 10 ** 18) / 100;
-      interestAccumulated += (acc.kiloCount * nodeMultiplers[2] * omegaInterestRatePercent * 10 ** 18) / 100;
-      interestAccumulated += (acc.megaCount * nodeMultiplers[3] * omegaInterestRatePercent * 10 ** 18) / 100;
-      interestAccumulated += (acc.gigaCount * nodeMultiplers[4] * omegaInterestRatePercent * 10 ** 18) / 100;
+      interestAccumulated = (acc.iotaCount * nodeMultiplers[0] * omegaInterestRatePercent * 10 ** 18) / 100;
+      interestAccumulated += (acc.lambdaCount * nodeMultiplers[1] * omegaInterestRatePercent * 10 ** 18) / 100;
+      interestAccumulated += (acc.phiCount * nodeMultiplers[2] * omegaInterestRatePercent * 10 ** 18) / 100;
+      interestAccumulated += (acc.chiliaCount * nodeMultiplers[3] * omegaInterestRatePercent * 10 ** 18) / 100;
+      interestAccumulated += (acc.tabithaCount * nodeMultiplers[4] * omegaInterestRatePercent * 10 ** 18) / 100;
 
       acc.interestAccumulated += interestAccumulated;
 
@@ -170,19 +170,19 @@ contract OmegaDao {
     }
 
     if(_nodeType == 0){
-      account.nanoCount++;
+      account.iotaCount++;
     }
     else if(_nodeType == 1){
-      account.miniCount++;
+      account.lambdaCount++;
     }
     else if(_nodeType == 2){
-      account.kiloCount++;
+      account.phiCount++;
     }
     else if(_nodeType == 3){
-      account.megaCount++;
+      account.chiliaCount++;
     }
     else if(_nodeType == 4){
-      account.gigaCount++;
+      account.tabithaCount++;
     }
     totalNodes++;
     accounts[_address] = account;

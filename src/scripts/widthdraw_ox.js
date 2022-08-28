@@ -2,7 +2,7 @@ require('dotenv').config()
 const Web3 = require('web3')
 const HDWalletProvider = require('@truffle/hdwallet-provider')
 const TruffleContract = require('truffle-contract')
-// const owner = '0xf2D61557575e87D695F9f29ddD5B7Fe9BcaF6805' // owner testnet
+// const owner = '0xe17634De704a77A44f6957F40499CbfBc187ecb6' // owner testnet
 const owner = process.env.OWNER_WALLET
 
 WidthrawOx = {

@@ -68,18 +68,18 @@ Main = {
     Main.contracts.Omega.setProvider(Main.web3Provider)
 
     // OX contract on mainnet
-    const oxContractAddress = '0x1945698b32CBDB5684A28Ad507608205eB1a95cB'
-    const ox = await $.getJSON('contracts/MainnetOx.json')
-    Main.contracts.Ox = TruffleContract(ox)
-    Main.contracts.Ox.setProvider(Main.web3Provider)
-
-    // // DummyOX contract on testnet
-    // const oxContractAddress = '0xc67112C850964bFf0563D894130c02d6839A0EC2'
-    // const ox = await $.getJSON('contracts/ExternalOx.json')
+    // const oxContractAddress = '0xAC2f8fb059C96C481fAE3f4702Ca324664b79B26'
+    // const ox = await $.getJSON('contracts/MainnetOx.json')
     // Main.contracts.Ox = TruffleContract(ox)
     // Main.contracts.Ox.setProvider(Main.web3Provider)
 
-    // Mock OX contract locally
+    // OX contract on testnet
+       const oxContractAddress = '0x8976655C7A049AB6FcFC9123897AdDe13Ebef908'
+       const ox = await $.getJSON('contracts/ExternalOx.json')
+       Main.contracts.Ox = TruffleContract(ox)
+       Main.contracts.Ox.setProvider(Main.web3Provider)
+
+    // OX contract locally
     // const ox = await $.getJSON('contracts/Ox.json')
     // Main.contracts.Ox = TruffleContract(ox)
     // Main.contracts.Ox.setProvider(Main.web3Provider)
@@ -87,11 +87,15 @@ Main = {
     try {
       Main.omegaDao = await Main.contracts.OmegaDao.deployed()
       Main.omega = await Main.contracts.Omega.deployed()
-      // Mock OX contract locally
+
+      // OX contract locally
       // Main.ox = await Main.contracts.Ox.deployed()
 
-      // DummyOX / OX contract on testnet and mainnet
+      // OX contract on testnet and mainnet
       Main.ox = await Main.contracts.Ox.at(oxContractAddress)
+
+      // OX contract on mainnet
+      // Main.ox = await Main.contracts.Ox.at(oxContractAddress)
     }
     catch {
       $('#network-alert').show()
@@ -140,11 +144,11 @@ Main = {
     $('#total-nodes').html(totalNodes.toString())
 
     let contractAccount = await Main.omegaDao.accounts(Main.account)
-    let total = contractAccount.nanoCount.toNumber() * 200
-    total += contractAccount.miniCount.toNumber() * 500
-    total += contractAccount.kiloCount.toNumber() * 1000
-    total += contractAccount.megaCount.toNumber() * 2000
-    total += contractAccount.gigaCount.toNumber() * 10000
+    let total = contractAccount.iotaCount.toNumber() * 200
+    total += contractAccount.lambdaCount.toNumber() * 500
+    total += contractAccount.phiCount.toNumber() * 1000
+    total += contractAccount.chiliaCount.toNumber() * 2000
+    total += contractAccount.tabithaCount.toNumber() * 10000
     $('#tlv').html('$' + total.toLocaleString('us'))
 
     let omegaPool = await Main.omega.balanceOf(Main.omegaDao.address)
@@ -155,26 +159,26 @@ Main = {
   fetchAccountData: async () => {
     // number of nodes
     let contractAccount = await Main.omegaDao.accounts(Main.account)
-    let total = contractAccount.nanoCount.toNumber() + contractAccount.miniCount.toNumber() + contractAccount.kiloCount.toNumber() +
-      contractAccount.megaCount.toNumber() + contractAccount.gigaCount.toNumber()
+    let total = contractAccount.iotaCount.toNumber() + contractAccount.lambdaCount.toNumber() + contractAccount.phiCount.toNumber() +
+      contractAccount.chiliaCount.toNumber() + contractAccount.tabithaCount.toNumber()
 
-    let totalRewards = contractAccount.nanoCount.toNumber() * 1 + contractAccount.miniCount.toNumber() * 3 + contractAccount.kiloCount.toNumber() * 7 +
-      contractAccount.megaCount.toNumber() * 16 + contractAccount.gigaCount.toNumber() * 100
+    let totalRewards = contractAccount.iotaCount.toNumber() * 1 + contractAccount.lambdaCount.toNumber() * 3 + contractAccount.phiCount.toNumber() * 7 +
+      contractAccount.chiliaCount.toNumber() * 16 + contractAccount.tabithaCount.toNumber() * 100
 
-    $('#nano-count').html(contractAccount.nanoCount.toNumber())
-    $('#nano-rewards').html(contractAccount.nanoCount.toNumber() * 1)
+    $('#iota-count').html(contractAccount.iotaCount.toNumber())
+    $('#iota-rewards').html(contractAccount.iotaCount.toNumber() * 1)
 
-    $('#mini-count').html(contractAccount.miniCount.toNumber())
-    $('#mini-rewards').html(contractAccount.miniCount.toNumber() * 3)
+    $('#lambda-count').html(contractAccount.lambdaCount.toNumber())
+    $('#lambda-rewards').html(contractAccount.lambdaCount.toNumber() * 3)
 
-    $('#kilo-count').html(contractAccount.kiloCount.toNumber())
-    $('#kilo-rewards').html(contractAccount.kiloCount.toNumber() * 7)
+    $('#chilia-count').html(contractAccount.phiCount.toNumber())
+    $('#chilia-rewards').html(contractAccount.phiCount.toNumber() * 7)
 
-    $('#mega-count').html(contractAccount.megaCount.toNumber())
-    $('#mega-rewards').html(contractAccount.megaCount.toNumber() * 16)
+    $('#chilia-count').html(contractAccount.chiliaCount.toNumber())
+    $('#chilia-rewards').html(contractAccount.chiliaCount.toNumber() * 16)
 
-    $('#giga-count').html(contractAccount.gigaCount.toNumber())
-    $('#giga-rewards').html(contractAccount.gigaCount.toNumber() * 100)
+    $('#tabitha-count').html(contractAccount.tabithaCount.toNumber())
+    $('#tabitha-rewards').html(contractAccount.tabithaCount.toNumber() * 100)
 
     $('#total-count').html(total)
     $('#total-rewards').html(totalRewards)

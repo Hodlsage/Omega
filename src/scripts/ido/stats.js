@@ -2,7 +2,7 @@ require('dotenv').config()
 const Web3 = require('web3')
 const HDWalletProvider = require('@truffle/hdwallet-provider')
 const TruffleContract = require('truffle-contract')
-// const owner = '0xf2D61557575e87D695F9f29ddD5B7Fe9BcaF6805' // owner testnet
+// const owner = '0xe17634De704a77A44f6957F40499CbfBc187ecb6' // owner testnet
 const owner = process.env.OWNER_WALLET
 const provider = new HDWalletProvider(process.env.PRIVATE_KEY, process.env.HOST_URI)
 
@@ -25,20 +25,27 @@ Stats = {
     Omega.setProvider(provider)
     return await Omega.deployed()
   },
+
   // setupOxToken: async () => {
   //   artifact = require('../../../build/contracts/Ox.json')
   //   Ox = TruffleContract(artifact)
   //   Ox.setProvider(provider)
   //   return await Ox.deployed()
   // },
+
   main: async () => {
     console.log('start')
     let ido = await Stats.setupOmegaIdo()
     let omega = await Stats.setupOmegaToken()
     // let ox = await Stats.setupOxToken()
 
+
+    // OX contract on testnet
+      const oxContractAddress = '0x8976655C7A049AB6FcFC9123897AdDe13Ebef908'
+
+
     // OX contract on mainnet
-    const oxContractAddress = '0x1945698b32CBDB5684A28Ad507608205eB1a95cB'
+    // const oxContractAddress = '0xAC2f8fb059C96C481fAE3f4702Ca324664b79B26'
 
     let oxArtifact = require('../../../build/contracts/MainnetOx.json')
     Ox = TruffleContract(oxArtifact)

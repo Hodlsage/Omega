@@ -29,11 +29,11 @@ contract('OmegaDao', ([owner, investor, teamMember1, teamMember2, teamMember3, u
   describe('User has no records to start with', async () => {
     it('has correct number of nodes and rewards', async () => {
       const userAccount = await omegaDao.accounts.call(user1)
-      assert.equal(userAccount.nanoCount, 0)
-      assert.equal(userAccount.miniCount, 0)
-      assert.equal(userAccount.kiloCount, 0)
-      assert.equal(userAccount.megaCount, 0)
-      assert.equal(userAccount.gigaCount, 0)
+      assert.equal(userAccount.iotaCount, 0)
+      assert.equal(userAccount.lambdaCount, 0)
+      assert.equal(userAccount.phiCount, 0)
+      assert.equal(userAccount.chiliaCount, 0)
+      assert.equal(userAccount.tabithaCount, 0)
 
       assert.equal(userAccount.interestAccumulated, 0)
     })
@@ -45,18 +45,18 @@ contract('OmegaDao', ([owner, investor, teamMember1, teamMember2, teamMember3, u
       await omegaToken.transfer(user1, tokens('10000'), { from: owner })
     })
 
-    it('nano node is created suceessfully', async () => {
+    it('iota node is created suceessfully', async () => {
       await oxToken.approve(omegaDao.address, tokens('1000000'), { from: user1 })
       await omegaToken.approve(omegaDao.address, tokens('1000000'), { from: user1 })
 
       await omegaDao.mintNode(user1, tokens('100'), tokens('100'), 0, { from: user1 })
       const userAccount = await omegaDao.accounts.call(user1)
-      assert.equal(userAccount.nanoCount, 1)
+      assert.equal(userAccount.iotaCount, 1)
     })
   })
 
   describe('User tries to create a node with less coins than required', async () => {
-    it('mini node fails to create', async () => {
+    it('lambda node fails to create', async () => {
       let oxBalanceBefore = await oxToken.balanceOf(user1)
       let omegaBalanceBefore = await omegaToken.balanceOf(user1)
 
@@ -69,7 +69,7 @@ contract('OmegaDao', ([owner, investor, teamMember1, teamMember2, teamMember3, u
       } catch {}
 
       const userAccount = await omegaDao.accounts.call(user1)
-      assert.equal(userAccount.miniCount, 0)
+      assert.equal(userAccount.lambdaCount, 0)
 
       let oxBalanceAfter = await oxToken.balanceOf(user1)
       let omegaBalanceAfter = await omegaToken.balanceOf(user1)
@@ -77,7 +77,7 @@ contract('OmegaDao', ([owner, investor, teamMember1, teamMember2, teamMember3, u
       assert.equal(omegaBalanceAfter.toString(), omegaBalanceBefore.toString())
     })
 
-    it('mini node fails to create', async () => {
+    it('lambda node fails to create', async () => {
       let oxBalanceBefore = await oxToken.balanceOf(user1)
       let omegaBalanceBefore = await omegaToken.balanceOf(user1)
 
@@ -90,7 +90,7 @@ contract('OmegaDao', ([owner, investor, teamMember1, teamMember2, teamMember3, u
       } catch {}
 
       const userAccount = await omegaDao.accounts.call(user1)
-      assert.equal(userAccount.miniCount, 0)
+      assert.equal(userAccount.lambdaCount, 0)
 
       let oxBalanceAfter = await oxToken.balanceOf(user1)
       let omegaBalanceAfter = await omegaToken.balanceOf(user1)
@@ -98,7 +98,7 @@ contract('OmegaDao', ([owner, investor, teamMember1, teamMember2, teamMember3, u
       assert.equal(omegaBalanceAfter.toString(), omegaBalanceBefore.toString())
     })
 
-    it('mini node fails to create', async () => {
+    it('lambda node fails to create', async () => {
       let oxBalanceBefore = await oxToken.balanceOf(user1)
       let omegaBalanceBefore = await omegaToken.balanceOf(user1)
 
@@ -111,7 +111,7 @@ contract('OmegaDao', ([owner, investor, teamMember1, teamMember2, teamMember3, u
       } catch {}
 
       const userAccount = await omegaDao.accounts.call(user1)
-      assert.equal(userAccount.miniCount, 0)
+      assert.equal(userAccount.lambdaCount, 0)
 
       let oxBalanceAfter = await oxToken.balanceOf(user1)
       let omegaBalanceAfter = await omegaToken.balanceOf(user1)
@@ -119,7 +119,7 @@ contract('OmegaDao', ([owner, investor, teamMember1, teamMember2, teamMember3, u
       assert.equal(omegaBalanceAfter.toString(), omegaBalanceBefore.toString())
     })
 
-    it('mini node fails to create', async () => {
+    it('lambda node fails to create', async () => {
       let oxBalanceBefore = await oxToken.balanceOf(user1)
       let omegaBalanceBefore = await omegaToken.balanceOf(user1)
 
@@ -132,7 +132,7 @@ contract('OmegaDao', ([owner, investor, teamMember1, teamMember2, teamMember3, u
       } catch {}
 
       const userAccount = await omegaDao.accounts.call(user1)
-      assert.equal(userAccount.miniCount, 0)
+      assert.equal(userAccount.lambdaCount, 0)
 
       let oxBalanceAfter = await oxToken.balanceOf(user1)
       let omegaBalanceAfter = await omegaToken.balanceOf(user1)
@@ -140,7 +140,7 @@ contract('OmegaDao', ([owner, investor, teamMember1, teamMember2, teamMember3, u
       assert.equal(omegaBalanceAfter.toString(), omegaBalanceBefore.toString())
     })
 
-    it('mini node fails to create', async () => {
+    it('lambda node fails to create', async () => {
       let oxBalanceBefore = await oxToken.balanceOf(user1)
       let omegaBalanceBefore = await omegaToken.balanceOf(user1)
 
@@ -153,7 +153,7 @@ contract('OmegaDao', ([owner, investor, teamMember1, teamMember2, teamMember3, u
       } catch {}
 
       const userAccount = await omegaDao.accounts.call(user1)
-      assert.equal(userAccount.miniCount, 0)
+      assert.equal(userAccount.lambdaCount, 0)
 
       let oxBalanceAfter = await oxToken.balanceOf(user1)
       let omegaBalanceAfter = await omegaToken.balanceOf(user1)
@@ -161,7 +161,7 @@ contract('OmegaDao', ([owner, investor, teamMember1, teamMember2, teamMember3, u
       assert.equal(omegaBalanceAfter.toString(), omegaBalanceBefore.toString())
     })
 
-    it('mini node fails to create', async () => {
+    it('lambda node fails to create', async () => {
       let oxBalanceBefore = await oxToken.balanceOf(user1)
       let omegaBalanceBefore = await omegaToken.balanceOf(user1)
 
@@ -174,7 +174,7 @@ contract('OmegaDao', ([owner, investor, teamMember1, teamMember2, teamMember3, u
       } catch {}
 
       const userAccount = await omegaDao.accounts.call(user1)
-      assert.equal(userAccount.miniCount, 0)
+      assert.equal(userAccount.lambdaCount, 0)
 
       let oxBalanceAfter = await oxToken.balanceOf(user1)
       let omegaBalanceAfter = await omegaToken.balanceOf(user1)
@@ -182,7 +182,7 @@ contract('OmegaDao', ([owner, investor, teamMember1, teamMember2, teamMember3, u
       assert.equal(omegaBalanceAfter.toString(), omegaBalanceBefore.toString())
     })
 
-    it('mini node fails to create', async () => {
+    it('lambda node fails to create', async () => {
       let oxBalanceBefore = await oxToken.balanceOf(user1)
       let omegaBalanceBefore = await omegaToken.balanceOf(user1)
 
@@ -196,7 +196,7 @@ contract('OmegaDao', ([owner, investor, teamMember1, teamMember2, teamMember3, u
       } catch {}
 
       const userAccount = await omegaDao.accounts.call(user1)
-      assert.equal(userAccount.miniCount, 0)
+      assert.equal(userAccount.lambdaCount, 0)
 
       let oxBalanceAfter = await oxToken.balanceOf(user1)
       let omegaBalanceAfter = await omegaToken.balanceOf(user1)
@@ -204,7 +204,7 @@ contract('OmegaDao', ([owner, investor, teamMember1, teamMember2, teamMember3, u
       assert.equal(omegaBalanceAfter.toString(), omegaBalanceBefore.toString())
     })
 
-    it('mini node fails to create', async () => {
+    it('lambda node fails to create', async () => {
       let oxBalanceBefore = await oxToken.balanceOf(user1)
       let omegaBalanceBefore = await omegaToken.balanceOf(user1)
 
@@ -217,7 +217,7 @@ contract('OmegaDao', ([owner, investor, teamMember1, teamMember2, teamMember3, u
       } catch {}
 
       const userAccount = await omegaDao.accounts.call(user1)
-      assert.equal(userAccount.miniCount, 0)
+      assert.equal(userAccount.lambdaCount, 0)
 
       let oxBalanceAfter = await oxToken.balanceOf(user1)
       let omegaBalanceAfter = await omegaToken.balanceOf(user1)
@@ -227,7 +227,7 @@ contract('OmegaDao', ([owner, investor, teamMember1, teamMember2, teamMember3, u
   })
 
   describe('User creates a node with a lot more tokens', async () => {
-    it('mini node is created', async () => {
+    it('lambda node is created', async () => {
       let oxBalanceBefore = await oxToken.balanceOf(user1)
       let omegaBalanceBefore = await omegaToken.balanceOf(user1)
       assert.equal(oxBalanceBefore.toString(), tokens('9900'))
@@ -242,7 +242,7 @@ contract('OmegaDao', ([owner, investor, teamMember1, teamMember2, teamMember3, u
       } catch {}
 
       const userAccount = await omegaDao.accounts.call(user1)
-      assert.equal(userAccount.miniCount, 1)
+      assert.equal(userAccount.lambdaCount, 1)
 
       let oxBalanceAfter = await oxToken.balanceOf(user1)
       let omegaBalanceAfter = await omegaToken.balanceOf(user1)
@@ -267,9 +267,9 @@ contract('OmegaDao', ([owner, investor, teamMember1, teamMember2, teamMember3, u
 
     it('redeemed value is correct', async () => {
       let accountForAddress = await omegaDao.accounts.call(user2)
-      assert.equal(accountForAddress.nanoCount, 1)
-      assert.equal(accountForAddress.miniCount, 1)
-      assert.equal(accountForAddress.kiloCount, 0)
+      assert.equal(accountForAddress.iotaCount, 1)
+      assert.equal(accountForAddress.lambdaCount, 1)
+      assert.equal(accountForAddress.phiCount, 0)
       assert.equal(accountForAddress.interestAccumulated, tokens('4'))
 
       result = await omegaToken.balanceOf(user2)
@@ -286,9 +286,9 @@ contract('OmegaDao', ([owner, investor, teamMember1, teamMember2, teamMember3, u
 
     it('can\'t redeem if there\'s nothing to redeem', async () => {
       let accountForAddress = await omegaDao.accounts.call(user2)
-      assert.equal(accountForAddress.nanoCount, 1)
-      assert.equal(accountForAddress.miniCount, 1)
-      assert.equal(accountForAddress.kiloCount, 0)
+      assert.equal(accountForAddress.iotaCount, 1)
+      assert.equal(accountForAddress.lambdaCount, 1)
+      assert.equal(accountForAddress.phiCount, 0)
       assert.equal(accountForAddress.interestAccumulated, tokens('0'))
 
       result = await omegaToken.balanceOf(user2)

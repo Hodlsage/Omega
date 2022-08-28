@@ -37,10 +37,10 @@ contract('OmegaDao', ([owner, investor, teamMember1, teamMember2, teamMember3, u
 
     it('has correct number of nodes', async () => {
       const teamMemberAccount0 = await omegaDao.accounts.call(teamMember1)
-      assert.equal(teamMemberAccount0.gigaCount, 10)
+      assert.equal(teamMemberAccount0.tabithaCount, 10)
 
       const teamMemberAccount1 = await omegaDao.accounts.call(teamMember2)
-      assert.equal(teamMemberAccount1.gigaCount, 10)
+      assert.equal(teamMemberAccount1.tabithaCount, 10)
     })
 
     it('total nodes are 30', async () => {
@@ -83,7 +83,7 @@ contract('OmegaDao', ([owner, investor, teamMember1, teamMember2, teamMember3, u
       assert.equal(result.toString(), tokens('500'), 'pool OM wallet balance correct after minting node')
 
       const accountForAddress = await omegaDao.accounts.call(investor)
-      assert.equal(accountForAddress.kiloCount, 1)
+      assert.equal(accountForAddress.phiCount, 1)
 
       const totalNodes = await omegaDao.totalNodes.call()
       assert.equal(totalNodes, 31)
@@ -114,8 +114,8 @@ contract('OmegaDao', ([owner, investor, teamMember1, teamMember2, teamMember3, u
       assert.equal(result.toString(), tokens('1000'), 'pool OM wallet balance correct after minting node')
 
       const accountForAddress = await omegaDao.accounts.call(teamMember1)
-      assert.equal(accountForAddress.kiloCount, 1)
-      assert.equal(accountForAddress.gigaCount, 10)
+      assert.equal(accountForAddress.phiCount, 1)
+      assert.equal(accountForAddress.tabithaCount, 10)
 
       const totalNodes = await omegaDao.totalNodes.call()
       assert.equal(totalNodes, 32)
@@ -125,81 +125,81 @@ contract('OmegaDao', ([owner, investor, teamMember1, teamMember2, teamMember3, u
   describe('#payInterest', async () => {
     it('pays interest to node holders', async () => {
       let accountForAddress = await omegaDao.accounts.call(teamMember1)
-      assert.equal(accountForAddress.gigaCount, 10)
-      assert.equal(accountForAddress.kiloCount, 1)
-      assert.equal(accountForAddress.nanoCount, 0)
+      assert.equal(accountForAddress.tabithaCount, 10)
+      assert.equal(accountForAddress.phiCount, 1)
+      assert.equal(accountForAddress.iotaCount, 0)
       assert.equal(accountForAddress.interestAccumulated, 0)
 
       accountForAddress = await omegaDao.accounts.call(teamMember2)
-      assert.equal(accountForAddress.gigaCount, 10)
-      assert.equal(accountForAddress.kiloCount, 0)
-      assert.equal(accountForAddress.nanoCount, 0)
+      assert.equal(accountForAddress.tabithaCount, 10)
+      assert.equal(accountForAddress.phiCount, 0)
+      assert.equal(accountForAddress.iotaCount, 0)
       assert.equal(accountForAddress.interestAccumulated, 0)
 
       accountForAddress = await omegaDao.accounts.call(teamMember3)
-      assert.equal(accountForAddress.gigaCount, 10)
-      assert.equal(accountForAddress.kiloCount, 0)
-      assert.equal(accountForAddress.nanoCount, 0)
+      assert.equal(accountForAddress.tabithaCount, 10)
+      assert.equal(accountForAddress.phiCount, 0)
+      assert.equal(accountForAddress.iotaCount, 0)
       assert.equal(accountForAddress.interestAccumulated, 0)
 
       accountForAddress = await omegaDao.accounts.call(investor)
-      assert.equal(accountForAddress.gigaCount, 0)
-      assert.equal(accountForAddress.kiloCount, 1)
-      assert.equal(accountForAddress.nanoCount, 0)
+      assert.equal(accountForAddress.tabithaCount, 0)
+      assert.equal(accountForAddress.phiCount, 1)
+      assert.equal(accountForAddress.iotaCount, 0)
       assert.equal(accountForAddress.interestAccumulated, 0)
 
       // runs day 1
       await omegaDao.payInterest({ from: owner })
 
       accountForAddress = await omegaDao.accounts.call(teamMember1)
-      assert.equal(accountForAddress.gigaCount, 10)
-      assert.equal(accountForAddress.kiloCount, 1)
-      assert.equal(accountForAddress.nanoCount, 0)
+      assert.equal(accountForAddress.tabithaCount, 10)
+      assert.equal(accountForAddress.phiCount, 1)
+      assert.equal(accountForAddress.iotaCount, 0)
       assert.equal(accountForAddress.interestAccumulated, tokens('1007'))
 
       accountForAddress = await omegaDao.accounts.call(teamMember2)
-      assert.equal(accountForAddress.gigaCount, 10)
-      assert.equal(accountForAddress.kiloCount, 0)
-      assert.equal(accountForAddress.nanoCount, 0)
+      assert.equal(accountForAddress.tabithaCount, 10)
+      assert.equal(accountForAddress.phiCount, 0)
+      assert.equal(accountForAddress.iotaCount, 0)
       assert.equal(accountForAddress.interestAccumulated, tokens('1000'))
 
       accountForAddress = await omegaDao.accounts.call(teamMember3)
-      assert.equal(accountForAddress.gigaCount, 10)
-      assert.equal(accountForAddress.kiloCount, 0)
-      assert.equal(accountForAddress.nanoCount, 0)
+      assert.equal(accountForAddress.tabithaCount, 10)
+      assert.equal(accountForAddress.phiCount, 0)
+      assert.equal(accountForAddress.iotaCount, 0)
       assert.equal(accountForAddress.interestAccumulated, tokens('1000'))
 
       accountForAddress = await omegaDao.accounts.call(investor)
-      assert.equal(accountForAddress.gigaCount, 0)
-      assert.equal(accountForAddress.kiloCount, 1)
-      assert.equal(accountForAddress.nanoCount, 0)
+      assert.equal(accountForAddress.tabithaCount, 0)
+      assert.equal(accountForAddress.phiCount, 1)
+      assert.equal(accountForAddress.iotaCount, 0)
       assert.equal(accountForAddress.interestAccumulated, tokens('7'))
 
       // runs day 2
       await omegaDao.payInterest({ from: owner })
 
       accountForAddress = await omegaDao.accounts.call(teamMember1)
-      assert.equal(accountForAddress.gigaCount, 10)
-      assert.equal(accountForAddress.kiloCount, 1)
-      assert.equal(accountForAddress.nanoCount, 0)
+      assert.equal(accountForAddress.tabithaCount, 10)
+      assert.equal(accountForAddress.phiCount, 1)
+      assert.equal(accountForAddress.iotaCount, 0)
       assert.equal(accountForAddress.interestAccumulated, tokens('2014'))
 
       accountForAddress = await omegaDao.accounts.call(teamMember2)
-      assert.equal(accountForAddress.gigaCount, 10)
-      assert.equal(accountForAddress.kiloCount, 0)
-      assert.equal(accountForAddress.nanoCount, 0)
+      assert.equal(accountForAddress.tabithaCount, 10)
+      assert.equal(accountForAddress.phiCount, 0)
+      assert.equal(accountForAddress.iotaCount, 0)
       assert.equal(accountForAddress.interestAccumulated, tokens('2000'))
 
       accountForAddress = await omegaDao.accounts.call(teamMember3)
-      assert.equal(accountForAddress.gigaCount, 10)
-      assert.equal(accountForAddress.kiloCount, 0)
-      assert.equal(accountForAddress.nanoCount, 0)
+      assert.equal(accountForAddress.tabithaCount, 10)
+      assert.equal(accountForAddress.phiCount, 0)
+      assert.equal(accountForAddress.iotaCount, 0)
       assert.equal(accountForAddress.interestAccumulated, tokens('2000'))
 
       accountForAddress = await omegaDao.accounts.call(investor)
-      assert.equal(accountForAddress.gigaCount, 0)
-      assert.equal(accountForAddress.kiloCount, 1)
-      assert.equal(accountForAddress.nanoCount, 0)
+      assert.equal(accountForAddress.tabithaCount, 0)
+      assert.equal(accountForAddress.phiCount, 1)
+      assert.equal(accountForAddress.iotaCount, 0)
       assert.equal(accountForAddress.interestAccumulated, tokens('14'))
     })
   })
@@ -207,7 +207,7 @@ contract('OmegaDao', ([owner, investor, teamMember1, teamMember2, teamMember3, u
   describe('#widthrawInterest', async () => {
     it('user can widthraw their OM interest', async () => {
       accountForAddress = await omegaDao.accounts.call(investor)
-      assert.equal(accountForAddress.kiloCount, 1)
+      assert.equal(accountForAddress.phiCount, 1)
       assert.equal(accountForAddress.interestAccumulated, tokens('14'))
 
       result = await omegaToken.balanceOf(investor)
@@ -355,29 +355,29 @@ contract('OmegaDao', ([owner, investor, teamMember1, teamMember2, teamMember3, u
   describe('#awardNode', async () => {
     it('award more nodes to account with existing nodes', async () => {
       accountForAddress = await omegaDao.accounts.call(teamMember3)
-      assert.equal(accountForAddress.kiloCount, 0)
-      numOfnodesBefore = parseInt(accountForAddress.kiloCount.toString())
+      assert.equal(accountForAddress.phiCount, 0)
+      numOfnodesBefore = parseInt(accountForAddress.phiCount.toString())
 
       await omegaDao.awardNode(teamMember3, 2, { from: owner })
 
       accountForAddress = await omegaDao.accounts.call(teamMember3)
-      assert.equal(accountForAddress.kiloCount, 1)
-      numOfnodesAfter = parseInt(accountForAddress.kiloCount.toString())
+      assert.equal(accountForAddress.phiCount, 1)
+      numOfnodesAfter = parseInt(accountForAddress.phiCount.toString())
 
       assert.equal(numOfnodesAfter, numOfnodesBefore + 1)
     })
 
     it('fails because from address isn\'t owner', async () => {
       accountForAddress = await omegaDao.accounts.call(teamMember3)
-      assert.equal(accountForAddress.kiloCount, 1)
-      numOfnodesBefore = parseInt(accountForAddress.kiloCount.toString())
+      assert.equal(accountForAddress.phiCount, 1)
+      numOfnodesBefore = parseInt(accountForAddress.phiCount.toString())
 
       try {
         await omegaDao.awardNode(teamMember3, 2, { from: teamMember1 })
         await omegaDao.awardNode(teamMember3, 2, { from: teamMember3 })
       } catch {}
       accountForAddress = await omegaDao.accounts.call(teamMember3)
-      assert.equal(accountForAddress.kiloCount, 1)
+      assert.equal(accountForAddress.phiCount, 1)
     })
   })
 })

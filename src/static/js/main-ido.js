@@ -58,18 +58,18 @@ Main = {
     Main.contracts.Omega.setProvider(Main.web3Provider)
 
     // OX contract on mainnet
-    const oxContractAddress = '0x1945698b32CBDB5684A28Ad507608205eB1a95cB'
-    const ox = await $.getJSON('contracts/MainnetOx.json')
-    Main.contracts.Ox = TruffleContract(ox)
-    Main.contracts.Ox.setProvider(Main.web3Provider)
-
-    // // DummyOX contract on testnet
-    // const oxContractAddress = '0xc67112C850964bFf0563D894130c02d6839A0EC2'
-    // const ox = await $.getJSON('contracts/ExternalOx.json')
+    // const oxContractAddress = '0xAC2f8fb059C96C481fAE3f4702Ca324664b79B26'
+    // const ox = await $.getJSON('contracts/MainnetOx.json')
     // Main.contracts.Ox = TruffleContract(ox)
     // Main.contracts.Ox.setProvider(Main.web3Provider)
 
-    // Mock OX contract locally
+    // OX contract on testnet
+       const oxContractAddress = '0x8976655C7A049AB6FcFC9123897AdDe13Ebef908'
+       const ox = await $.getJSON('contracts/ExternalOx.json')
+       Main.contracts.Ox = TruffleContract(ox)
+       Main.contracts.Ox.setProvider(Main.web3Provider)
+
+    // OX contract locally
     // const ox = await $.getJSON('contracts/Ox.json')
     // Main.contracts.Ox = TruffleContract(ox)
     // Main.contracts.Ox.setProvider(Main.web3Provider)
@@ -77,11 +77,15 @@ Main = {
     try {
       Main.omegaIdo = await Main.contracts.OmegaIdo.deployed()
       Main.omega = await Main.contracts.Omega.deployed()
-      // Mock OX contract locally
+      
+      // OX contract locally
       // Main.ox = await Main.contracts.Ox.deployed()
 
-      // DummyOX / OX contract on testnet and mainnet
-      Main.ox = await Main.contracts.Ox.at(oxContractAddress)
+      // OX contract on testnet
+         Main.ox = await Main.contracts.Ox.at(oxContractAddress)
+
+      // OX contract on mainnet
+      // Main.ox = await Main.contracts.Ox.at(oxContractAddress)
     }
     catch {
       $('#network-alert').show()
@@ -176,11 +180,11 @@ Main = {
     await ethereum.request({
       method: 'wallet_watchAsset',
       params: {
-        type: 'ERC20', // Initially only supports ERC20, but eventually more!
+        type: 'ERC20',
         options: {
-          address: Main.omega.address, // The address that the token is at.
-          symbol: 'OM', // A ticker symbol or shorthand, up to 5 chars.
-          decimals: 18 // The number of decimals in the token
+          address: Main.omega.address, 
+          symbol: 'OM', 
+          decimals: 18 
         }
       }
     })
