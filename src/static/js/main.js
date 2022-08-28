@@ -358,11 +358,23 @@ Main = {
       Main.changeWalletNetwork()
     })
   },
-  changeWalletNetwork: async () => {
-    await ethereum.request({
-      method: 'wallet_switchEthereumChain',
-      params:[ { chainId: '0x89' } ]
-    });
+
+  // Mainnet BSC
+
+  //changeWalletNetwork: async () => {
+  //  await ethereum.request({
+  //    method: 'wallet_switchEthereumChain',
+  //    params:[ { chainId: '0x38' } ]
+  //  });
+
+// Testnet BSC
+
+    changeWalletNetwork: async () => {
+      await ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params:[ { chainId: '97' } ]
+      });
+
   },
 
   // helper functions

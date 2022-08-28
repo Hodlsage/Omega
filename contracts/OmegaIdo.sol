@@ -27,19 +27,16 @@ contract OmegaIdo {
     omegaAddress.transfer(_buyer, _omegaAmount);
   }
 
-  // TODO: Script to update price
   function updatePrice(uint _price) public {
     require(msg.sender == owner, 'You must be the owner to run this.');
     pricePerOmegaPercent = _price;
   }
 
-  // TODO: Script to withdraw OM form IDO
   function withdrawOmegaFromIdo(address _to, uint _omegaAmount) public {
     require(msg.sender == owner, 'You must be the owner to run this.');
     omegaAddress.transfer(_to, _omegaAmount);
   }
 
-  // TODO: Script to withdraw OX form IDO
   function withdrawOxFromIdo(address _to, uint _oxAmount) public {
     require(msg.sender == owner, 'You must be the owner to run this.');
     oxAddress.transfer(_to, _oxAmount);
