@@ -3449,7 +3449,8 @@ textarea.form-control-lg {
 
 .card-body {
   flex: 1 1 auto;
-  padding: 1.75rem 1.75rem; }
+  padding: 1.75rem 1.75rem;
+  min-height: 500px; }
 
 .card-title {
   margin-bottom: 0.5rem; }

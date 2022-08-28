@@ -60,14 +60,6 @@
 
       <br>
       <main class="mt-5">
-        <div class="row">
-
-          <div class="offset-md-4 col-md-4 col-sm-12">
-            <img src="static/images/omega.png" width="120px" />
-          </div>
-        </div>
-
-        <br><br><br>
 
         <div class="alert alert-warning u-hide" id='network-alert' role="alert">
           Wrong network, please connect to Binance Smart Chain! <a href='#' id='change-network'>Click here to change</a>
@@ -82,11 +74,11 @@
             <div class="col-md-4 col-sm-12">
               <div class="card bg-light-purple text-black h-100" >
                 <div class="card-body">
-                  <h5 class="card-title">Number of nodes</h5>
+                  <h5 class="card-title">Number of Nodes</h5><hr>
                   <p class="card-text" id='num-nodes'>
                     <img src='static/images/loading2.gif' style="height:50px" />
                   </p>
-                  <button class="btn text-white bg-purple" id='node-breakdown' data-bs-toggle="modal" data-bs-target="#your-nodes">Your omega nodes</button>
+                  <button class="btn text-white bg-purple" id='node-breakdown' data-bs-toggle="modal" data-bs-target="#your-nodes">Node Details</button>
                 </div>
               </div>
             </div>
@@ -94,7 +86,7 @@
             <div class="col-md-4 col-sm-12">
               <div class="card bg-light-purple text-black h-100" >
                 <div class="card-body">
-                  <h5 class="card-title">Rewards accumulated</h5>
+                  <h5 class="card-title">Rewards Accumulated</h5><hr>
                   <p class="card-text" id='accumulated-interest'>
                     <img src='static/images/loading2.gif' style="height:50px" />
                   </p>
@@ -107,76 +99,19 @@
             <div class="col-md-4 col-sm-12">
               <div class="card bg-light-purple text-black" >
                 <div class="card-body">
-                  <h5 class="card-title">School's open</h5>
-                  <p class="card-text">Paideia information</p>
-                  <a href="https://docs.alphadao.financial/alpha-omega-dao/" target="_blank" class="btn text-white bg-purple">📚 Read Docs</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row mt-5">
-            <div class="col-md-4 col-sm-12">
-              <div class="card bg-light-purple text-black" >
-                <div class="card-body">
-                  <h5 class="card-title">OM from our IDO</h5>
-                  <p class="card-text">Buy at least 100 OM for a node</p>
-                  <a href="/ido" class="btn text-white bg-purple">
-                    💰 Buy a OM bag
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-md-4 col-sm-12">
-              <div class="card bg-light-purple text-black" >
-                <div class="card-body">
-                  <h5 class="card-title">OX on PancakeSwap</h5>
-                  <p class="card-text">Buy at least 100 OX for a node</p>
-                  <a href="https://pancakeswap.finance/swap?chainId=56&inputCurrency=0xAC2f8fb059C96C481fAE3f4702Ca324664b79B26"
-                    class="btn text-white bg-purple" target="_blank">
-                    💰 Buy a OX bag
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-md-4 col-sm-12">
-              <div class="card bg-light-purple text-black" >
-                <div class="card-body">
-                  <h5 class="card-title">Mint a liquidity node</h5>
+                  <h5 class="card-title">Create a share of the validator Pool</h5><hr>
                   <p class="card-text">Provide tokens: OM - OX</p>
-                  <button id='node-modal'  class="btn text-white bg-purple" data-bs-toggle="modal" data-bs-target="#create-node">Mint a liquidity node</button>
+                  <button id='node-modal'  class="btn text-white bg-purple" data-bs-toggle="modal" data-bs-target="#create-node">Deploy Node</button>
                 </div>
               </div>
             </div>
           </div>
-
-          <div class="row mt-5">
-            <div class="col-md-4 offset-md-4 col-sm-12">
-              <div class="card bg-light-purple text-black" >
-                <div class="card-body">
-                  <h5 class="card-title">Get a FREE Iota node!</h5>
-                  <p class="card-text">We are giving away one node per week to a random account that tweets about us!</p>
-                  <a class="btn text-white bg-purple" target="_blank"
-                    href="https://twitter.com/intent/tweet?text=Check%20out%20%40omega%20-%20validator%20nodes%20for%20Paideia%20the%20educational%20blockchain.">
-                    Tweet about Omega</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <br><br><br>
-
-          <hr>
-
-          <br><br><br>
-
+          <br>
           <div class="row">
             <div class="col-md-4 col-sm-12">
               <div class="card bg-light-purple text-black" >
                 <div class="card-body">
-                  <h5 class="card-title">Total number of nodes</h5>
+                  <h5 class="card-title">Global Number of Nodes</h5><hr>
                   <p class="card-text" id='total-nodes'>
                     <img src='static/images/loading2.gif' style="height:50px"  />
                   </p>
@@ -185,46 +120,24 @@
             </div>
 
             <div class="col-md-4 col-sm-12">
-              <div class="card bg-light-purple text-black" >
-                <div class="card-body">
-                  <h5 class="card-title">Current node rewards</h5>
-                  <p class="card-text">Up to 100 OM per node per day</p>
+              <div>
+                <div>
+               
                 </div>
               </div>
             </div>
 
             <div class="col-md-4 col-sm-12">
-              <div class="card bg-light-purple text-black" >
-                  <!-- <div class="card-body">
-                  <h5 class="card-title">Protocol locked liquidity</h5>
-                  <p class="card-text"><i>Coming soon</i></p>
-                <p class="card-text" id='tlv'>
-                    <img src='static/images/loading2.gif' style="height:50px"  />
-                  </p> 
-                </div>-->
-              </div>
+                <div class="card bg-light-purple text-black" >
+                  <div class="card-body">
+                    <h5 class="card-title">OM Rewards Pool</h5><hr>
+                    <p class="card-text"><span id='omega-pool'></span> OM</p>
+                  </div>
+                </div>
             </div>
           </div>
 
-          <div class="row mt-5">
-            <div class="col-md-6 col-sm-12">
-              <div class="card bg-light-purple text-black" >
-                <div class="card-body">
-                  <h5 class="card-title">OM in rewards pool</h5>
-                  <p class="card-text"><span id='omega-pool'></span> OM</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-md-6 col-sm-12">
-              <div class="card bg-light-purple text-black" >
-                <div class="card-body">
-                  <h5 class="card-title">OX treasury value</h5>
-                  <p class="card-text"><i>Coming soon</i></p>
-                  <!-- <p class="card-text"><span id='ox-pool'></span> OX</p> -->
-                </div>
-              </div>
-            </div>
+          
           </div>
         </main>
 
@@ -322,21 +235,21 @@
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="createNode">Mint a OM node</h5>
+            <h5 class="modal-title" id="createNode">Mint an OM node</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
 
-          <div id='node-type-modal' class='u-hide'>
+          <div id='node-type-modal' class=''>
             <div class="modal-body col-md-10 offset-md-1">
               <div class="mb-3">
                 <p>Select an Omega node type...</p>
                 <select id='omega-type' class="form-select form-select-lg" aria-label="Default select example">
                   <option selected="true" disabled="disabled">Select your Omega node</option>
-                  <option value="0">Iota | 100 OMEGA x 100OX | 1 OM per day</option>
-                  <option value="1">Lambda | 250 OMEGA x 250OX | 3 OM per day</option>
-                  <option value="2">Phi | 500 OMEGA x 500OX | 7 OM per day</option>
-                  <option value="3">Chilia | 1000 OMEGA x 1000OX | 16 OM per day</option>
-                  <option value="4">Tabitha | 5000 OMEGA x 5000OX | 100 OM per day</option>
+                  <option value="0">Iota | 100 OM x 100 OX | 1 OM per day</option>
+                  <option value="1">Lambda | 250 OMEGA x 250 OX | 3 OM per day</option>
+                  <option value="2">Phi | 500 OM x 500 OX | 7 OM per day</option>
+                  <option value="3">Chilia | 1000 OM x 1000 OX | 16 OM per day</option>
+                  <option value="4">Tabitha | 5000 OM x 5000 OX | 100 OM per day</option>
                 </select>
               </div>
             </div>

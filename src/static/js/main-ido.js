@@ -75,8 +75,8 @@ Main = {
     // Main.contracts.Ox.setProvider(Main.web3Provider)
 
     try {
-      Main.omegaIdo = await Main.contracts.OmegaIdo.deployed()
-      Main.omega = await Main.contracts.Omega.deployed()
+      //Main.omegaIdo = await Main.contracts.OmegaIdo.deployed()
+      //Main.omega = await Main.contracts.Omega.deployed()
       
       // OX contract locally
       // Main.ox = await Main.contracts.Ox.deployed()

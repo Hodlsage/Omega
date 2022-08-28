@@ -1,5 +1,5 @@
 {
-  "contractName": "Ox",
+  "contractName": "DummyOx",
   "abi": [
     {
       "inputs": [],
