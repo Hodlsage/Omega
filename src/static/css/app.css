@@ -18,11 +18,11 @@
 }
 
 .bg-purple {
-  background-color: #8247e5 !important;
+  background-color: #4759e5 !important;
 }
 
 .text-purple {
-  color: #8247e5 !important;
+  color: #4759e5 !important;
 }
 
 /*
@@ -68,13 +68,13 @@
 }
 
 .btn-outline-purple {
-  border: 1px solid #8247e5;
-  color: #8247e5;
+  border: 1px solid #4759e5;
+  color: #4759e5;
 }
 
 .btn-outline-purple:hover {
-  border: 1px solid #8247e5;
-  background-color: #8247e5;
+  border: 1px solid #4759e5;
+  background-color: #4759e5;
   color: #fff;
 }
 
