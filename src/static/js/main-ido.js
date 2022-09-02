@@ -49,10 +49,15 @@ Main = {
     });
   },
   loadContract: async () => {
-    const omegaIdo = await $.getJSON('contracts/OmegaIdo.json')
-    Main.contracts.OmegaIdo = TruffleContract(omegaIdo)
-    Main.contracts.OmegaIdo.setProvider(Main.web3Provider)
 
+     // OM IDO contract on mainnet
+    const omidoContractAddress = '0x8E06D7a384427c50795fBDc6a2d2f0169B9c2d14'
+    const omegaIdo = await $.getJSON('contracts/OmegaIdo.json')
+    Main.contracts.omegaIdo = TruffleContract(omegaIdo)
+    Main.contracts.omegaIdo.setProvider(Main.web3Provider)
+
+// OM contract on mainnet
+const omContractAddress = '0x00D7299fC283ee52DCf4eb6Cc601F3EA0F87126C'
     const omega = await $.getJSON('contracts/Omega.json')
     Main.contracts.Omega = TruffleContract(omega)
     Main.contracts.Omega.setProvider(Main.web3Provider)
@@ -75,14 +80,14 @@ Main = {
     // Main.contracts.Ox.setProvider(Main.web3Provider)
 
     try {
-      //Main.omegaIdo = await Main.contracts.OmegaIdo.deployed()
-      //Main.omega = await Main.contracts.Omega.deployed()
+      //Main.omegaIdo = await Main.contracts.OmegaIdo.at(omidoContractAddress)
+      //Main.omega = await Main.contracts.Omega.at(omContractAddress)
       
       // OX contract locally
       // Main.ox = await Main.contracts.Ox.deployed()
 
       // OX contract on testnet
-         Main.ox = await Main.contracts.Ox.at(oxContractAddress)
+       //  Main.ox = await Main.contracts.Ox.at(oxContractAddress)
 
       // OX contract on mainnet
       // Main.ox = await Main.contracts.Ox.at(oxContractAddress)
@@ -133,6 +138,9 @@ Main = {
     $('#ox-balance').html(Main.toEth(oxBalance.toString()))
 
     let allowanceOx = await Main.ox.allowance(Main.account, Main.omegaIdo.address)
+    if (typeof(Main.omegaIdo.address) == 'undefined') {
+      Main.omegaIdo.address == '0x'
+    }
     if(allowanceOx > 0) {
       $('#buy-omega').show()
     }
